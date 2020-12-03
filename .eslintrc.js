@@ -4,8 +4,14 @@ module.exports = {
     node: true,
     browser: true
   },
+  globals: { connection: 'writable', db: 'writable' },
   extends: ['plugin:react/recommended', 'standard', 'standard-react'],
   plugins: ['react', 'react-hooks'],
+  parserOptions: {
+    ecmaVersion: 2021,
+    sourceType: 'module',
+    ecmaFeatures: { jsx: true, impliedStrict: true }
+  },
   rules: {
     // React Hooks rules.
     'react-hooks/rules-of-hooks': 'error',

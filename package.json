@@ -15,8 +15,10 @@
   "dependencies": {
     "mongodb": "^3.6.3",
     "next": "^10.0.3",
+    "prop-types": "^15.7.2",
     "react": "^17.0.1",
-    "react-dom": "^17.0.1"
+    "react-dom": "^17.0.1",
+    "styled-jsx": "^3.3.2"
   },
   "devDependencies": {
     "@types/node": "^14.14.10",

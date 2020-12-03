@@ -1158,8 +1158,10 @@ __metadata:
     husky: ^4.3.0
     mongodb: ^3.6.3
     next: ^10.0.3
+    prop-types: ^15.7.2
     react: ^17.0.1
     react-dom: ^17.0.1
+    styled-jsx: ^3.3.2
   languageName: unknown
   linkType: soft
 
@@ -6534,7 +6536,7 @@ fsevents@~2.1.2:
   languageName: node
   linkType: hard
 
-"styled-jsx@npm:3.3.2":
+"styled-jsx@npm:3.3.2, styled-jsx@npm:^3.3.2":
   version: 3.3.2
   resolution: "styled-jsx@npm:3.3.2"
   dependencies:
