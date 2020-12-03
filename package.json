@@ -13,12 +13,17 @@
     "dev": "next"
   },
   "dependencies": {
+    "luxon": "^1.25.0",
     "mongodb": "^3.6.3",
     "next": "^10.0.3",
     "prop-types": "^15.7.2",
     "react": "^17.0.1",
     "react-dom": "^17.0.1",
-    "styled-jsx": "^3.3.2"
+    "remark-gfm": "^1.0.0",
+    "remark-parse": "^9.0.0",
+    "remark-react": "^8.0.0",
+    "styled-jsx": "^3.3.2",
+    "unified": "^9.2.0"
   },
   "devDependencies": {
     "@types/node": "^14.14.10",

@@ -12,7 +12,7 @@ const AnchorLink = (props) => (
 AnchorLink.propTypes = {
   href: PropTypes.string.isRequired,
   as: PropTypes.string,
-  prefetch: PropTypes.boolean,
+  prefetch: PropTypes.bool,
   children: PropTypes.node
 }
 
