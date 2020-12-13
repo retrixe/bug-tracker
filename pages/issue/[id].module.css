@@ -1,0 +1,6 @@
+.p-markdown-class:first-child {
+  margin-top: 0;
+}
+.p-markdown-class:last-child {
+  margin-bottom: 0;
+}

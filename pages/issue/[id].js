@@ -7,12 +7,16 @@ import PropTypes from 'prop-types'
 import remark2react from 'remark-react'
 import Title from '../../imports/title'
 import Layout from '../../imports/layout'
+import styles from './[id].module.css'
 
 import { getIssue } from '../api/issue/[id]'
 
+const MarkdownParagraph = (props) => <p {...props} className={styles['p-markdown-class']} />
 const Reply = (props) => {
-  const content = React.useMemo( // TODO: Get rid of <p> top and bottom margins.
-    () => unified().use(parse).use(gfm).use(remark2react).processSync(props.content).result,
+  const content = React.useMemo(
+    () => unified().use(parse).use(gfm).use(remark2react, {
+      remarkReactComponents: { p: MarkdownParagraph }
+    }).processSync(props.content).result,
     [props.content]
   )
   return (
@@ -29,8 +33,6 @@ const Reply = (props) => {
       </div>
       <div style={{
         padding: 8,
-        paddingLeft: '1em',
-        paddingRight: '1em',
         border: '1px solid black',
         borderTop: 0,
         borderBottomLeftRadius: 8,
@@ -46,6 +48,26 @@ Reply.propTypes = {
   author: PropTypes.string.isRequired,
   content: PropTypes.string.isRequired
 }
+const ReplyAction = (props) => {
+  if (props.action === 'reply') return <Reply {...props} />
+  return (
+    <div style={{ marginTop: '1.5em', display: 'flex' }}>
+      {props.action === 'close' && <span><b>{props.author}</b> closed this issue on {props.date}</span>}
+      {props.action === 'edit' && <span><b>{props.author}</b> edited this issue on {props.date}</span>}
+      {props.action === 'titleEdit' && <span>
+        <b>{props.author}</b> edited the title of this issue on {props.date} from
+        <b> {props.content.split('\n')[0]}</b> to <b>{props.content.split('\n')[1]}</b>
+      </span>}
+      {/* <div style={{ backgroundColor: '#aaa', width: '100%', height: 4 }} /> */}
+    </div>
+  )
+}
+ReplyAction.propTypes = {
+  date: PropTypes.string.isRequired,
+  author: PropTypes.string.isRequired,
+  content: PropTypes.string.isRequired,
+  action: PropTypes.oneOf(['reply', 'close', 'edit', 'titleEdit']).isRequired
+}
 
 const IssuePage = ({ issue }) => {
   const comments = React.useMemo(
@@ -59,7 +81,7 @@ const IssuePage = ({ issue }) => {
       </Layout>
     )
   }
-  // TODO: labels, assignedTo, close, edit, titleEdit
+  // TODO: labels, assignedTo
   const date = DateTime.fromMillis(issue.timestamp).toLocaleString(DateTime.DATE_MED)
   return (
     <Layout>
@@ -81,11 +103,12 @@ const IssuePage = ({ issue }) => {
       {/* <hr style={{ marginTop: '1em', marginBottom: '1em', color: '#eee', backgroundColor: '#eee' }} /> */}
       <Reply date={date} content={issue.content} author={issue.author} />
       {issue.replies.map((reply, index) => (
-        <Reply
+        <ReplyAction
           key={index}
           date={DateTime.fromMillis(reply.timestamp).toLocaleString(DateTime.DATE_MED)}
           author={reply.author}
           content={reply.content}
+          action={reply.action}
         />
       ))}
     </Layout>
@@ -105,7 +128,7 @@ IssuePage.propTypes = {
       author: PropTypes.string.isRequired,
       content: PropTypes.string.isRequired,
       timestamp: PropTypes.number.isRequired,
-      action: PropTypes.oneOf(['reply', 'close', 'edit', 'titleEdit'])
+      action: PropTypes.oneOf(['reply', 'close', 'edit', 'titleEdit']).isRequired
     }).isRequired).isRequired
     // no projects or milestones rn
     // editLog: [], // maybe later
