@@ -9,7 +9,7 @@ export default async (req, res) => {
       if (!tokens[req.headers.authorization]) {
         return res.status(403).json({ error: 'Invalid credentials have been provided!' })
       }
-      delete tokens[req.headers.authorization.split(' ').pop()]
+      delete tokens[req.headers.authorization]
       return res.status(200).json({ success: true })
     } catch (e) {
       console.error(e)

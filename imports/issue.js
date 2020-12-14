@@ -10,10 +10,10 @@ const Issue = ({ issue }) => {
   const date = DateTime.fromMillis(issue.timestamp).toLocaleString(DateTime.DATE_MED)
   return (
     <div style={{ borderBottom: '1px solid black', paddingBottom: 8 }}>
-        <svg viewBox='0 0 16 16' version='1.1' width='16' height='16' aria-hidden='true' fill='rgb(34, 134, 58)'>
-          <path fillRule='evenodd' d={issueSvgPath} />
-        </svg>
-      <AnchorLink href={`/issue/${issue.id}`} prefetch={false}><b>{issue.title}</b></AnchorLink>
+      <svg viewBox='0 0 16 16' version='1.1' width='16' height='16' aria-hidden='true' fill='rgb(34, 134, 58)'>
+        <path fillRule='evenodd' d={issueSvgPath} />
+      </svg>
+      <AnchorLink href={`/issue/${issue.id}`} prefetch={false}><b> {issue.title}</b></AnchorLink>
       <br />
       <sub>#{issue.id} opened on {date} by {issue.author}</sub>
     </div>

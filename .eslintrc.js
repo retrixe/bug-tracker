@@ -17,6 +17,7 @@ module.exports = {
     'react-hooks/rules-of-hooks': 'error',
     'react-hooks/exhaustive-deps': 'warn',
     // Allow no-multi-str.
-    'no-multi-str': 'off'
+    'no-multi-str': 'off',
+    'react/jsx-indent': ['error', 2, { checkAttributes: true, indentLogicalExpressions: true }]
   }
 }
