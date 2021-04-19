@@ -87,7 +87,7 @@ const IssuePage = ({ issue }) => {
     <Layout>
       <Title title='Bug Tracker' url='/' description='A lightweight website that tracks bugs.' />
       <h2><span style={{ fontWeight: 300 }}>#{issue.id}</span> {issue.title}</h2>
-      <div style={{
+      <div style={{ // TODO: Add an issue SVG.
         padding: 8,
         color: 'white',
         marginRight: 8,
@@ -118,6 +118,7 @@ IssuePage.propTypes = {
   issue: PropTypes.shape({
     id: PropTypes.number.isRequired,
     open: PropTypes.bool.isRequired,
+    hidden: PropTypes.bool.isRequired,
     title: PropTypes.string.isRequired,
     author: PropTypes.string.isRequired,
     content: PropTypes.string.isRequired,
@@ -131,7 +132,7 @@ IssuePage.propTypes = {
       action: PropTypes.oneOf(['reply', 'close', 'edit', 'titleEdit']).isRequired
     }).isRequired).isRequired
     // no projects or milestones rn
-    // editLog: [], // maybe later
+    // editLog: [], // todo maybe later
   })
 }
 

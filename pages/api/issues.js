@@ -16,17 +16,18 @@ export const initialiseDb = async () => {
   }
 }
 
-export const getIssues = async () => {
+export const getIssues = async (includeHidden) => {
   await initialiseDb()
   return (await db.collection('issues').find({}).toArray()).map(issue => {
     delete issue._id
     return issue
-  })
+  }).filter(issue => includeHidden || !issue.hidden) // includeHidden is an override.
 }
 
 export default async (req, res) => {
   if (req.method === 'GET') {
     try {
+      // TODO: Support confidential issues.
       const issues = await getIssues()
       res.status(200).json(issues)
     } catch (e) {

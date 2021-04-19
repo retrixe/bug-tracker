@@ -23,6 +23,7 @@ Issue.propTypes = {
   issue: PropTypes.shape({
     id: PropTypes.number.isRequired,
     open: PropTypes.bool.isRequired,
+    hidden: PropTypes.bool.isRequired,
     title: PropTypes.string.isRequired,
     author: PropTypes.string.isRequired,
     content: PropTypes.string.isRequired,
