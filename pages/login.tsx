@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import { useRouter } from 'next/router'
-import Title from '../imports/title'
-import Layout from '../imports/layout'
+import Title from '../src/client/title'
+import Layout from '../src/client/layout'
 
 const Login = (): JSX.Element => {
   const router = useRouter()

@@ -244,6 +244,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@types/luxon@npm:^3.3.3":
+  version: 3.3.3
+  resolution: "@types/luxon@npm:3.3.3"
+  checksum: 169ce8eb8860f3ad9ef146c2c7a2d9bc09775b8af93fb346f1222e67e4f98559201cf38ed6d8dc9a72d9535b1cf9a46415cf95591e56d2d72101babce2996de3
+  languageName: node
+  linkType: hard
+
 "@types/mdast@npm:^3.0.0":
   version: 3.0.14
   resolution: "@types/mdast@npm:3.0.14"
@@ -697,6 +704,7 @@ __metadata:
   resolution: "bug-tracker@workspace:."
   dependencies:
     "@next/eslint-plugin-next": "npm:^13.5.6"
+    "@types/luxon": "npm:^3.3.3"
     "@types/node": "npm:^20.8.7"
     "@types/react": "npm:^18.2.31"
     "@typescript-eslint/eslint-plugin": "npm:^6.8.0"

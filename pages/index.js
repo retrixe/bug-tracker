@@ -1,8 +1,8 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import Issue from '../imports/issue'
-import Title from '../imports/title'
-import Layout from '../imports/layout'
+import Issue from '../src/client/issue'
+import Title from '../src/client/title'
+import Layout from '../src/client/layout'
 
 import { getIssues } from './api/issues'
 
