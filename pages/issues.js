@@ -4,7 +4,7 @@ import { useRouter } from 'next/router'
 const Issues = () => {
   const router = useRouter()
   React.useEffect(() => router.replace('/'), [router])
-  return <React.Fragment />
+  return <></>
 }
 
 export async function getServerSideProps () {

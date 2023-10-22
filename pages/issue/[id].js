@@ -21,23 +21,27 @@ const Reply = (props) => {
   )
   return (
     <div style={{ marginTop: '1.5em' }}>
-      <div style={{
-        padding: 8,
-        borderTopLeftRadius: 8,
-        borderTopRightRadius: 8,
-        backgroundColor: '#eee',
-        border: '1px solid black',
-        borderBottomColor: '#999'
-      }}>
+      <div
+        style={{
+          padding: 8,
+          borderTopLeftRadius: 8,
+          borderTopRightRadius: 8,
+          backgroundColor: '#eee',
+          border: '1px solid black',
+          borderBottomColor: '#999'
+        }}
+      >
         <b>{props.author}</b> commented on {props.date}
       </div>
-      <div style={{
-        padding: 8,
-        border: '1px solid black',
-        borderTop: 0,
-        borderBottomLeftRadius: 8,
-        borderBottomRightRadius: 8
-      }}>
+      <div
+        style={{
+          padding: 8,
+          border: '1px solid black',
+          borderTop: 0,
+          borderBottomLeftRadius: 8,
+          borderBottomRightRadius: 8
+        }}
+      >
         {content}
       </div>
     </div>
@@ -54,10 +58,12 @@ const ReplyAction = (props) => {
     <div style={{ marginTop: '1.5em', display: 'flex' }}>
       {props.action === 'close' && <span><b>{props.author}</b> closed this issue on {props.date}</span>}
       {props.action === 'edit' && <span><b>{props.author}</b> edited this issue on {props.date}</span>}
-      {props.action === 'titleEdit' && <span>
-        <b>{props.author}</b> edited the title of this issue on {props.date} from
-        <b> {props.content.split('\n')[0]}</b> to <b>{props.content.split('\n')[1]}</b>
-      </span>}
+      {props.action === 'titleEdit' && (
+        <span>
+          <b>{props.author}</b> edited the title of this issue on {props.date} from
+          <b> {props.content.split('\n')[0]}</b> to <b>{props.content.split('\n')[1]}</b>
+        </span>
+      )}
       {/* <div style={{ backgroundColor: '#aaa', width: '100%', height: 4 }} /> */}
     </div>
   )
@@ -87,14 +93,16 @@ const IssuePage = ({ issue }) => {
     <Layout>
       <Title title='Bug Tracker' url='/' description='A lightweight website that tracks bugs.' />
       <h2><span style={{ fontWeight: 300 }}>#{issue.id}</span> {issue.title}</h2>
-      <div style={{ // TODO: Add an issue SVG.
-        padding: 8,
-        color: 'white',
-        marginRight: 8,
-        borderRadius: 16,
-        display: 'inline',
-        backgroundColor: issue.open ? 'green' : 'red'
-      }}>
+      <div
+        style={{ // TODO: Add an issue SVG.
+          padding: 8,
+          color: 'white',
+          marginRight: 8,
+          borderRadius: 16,
+          display: 'inline',
+          backgroundColor: issue.open ? 'green' : 'red'
+        }}
+      >
         {issue.open ? 'Open' : 'Closed'}
       </div>
       <span style={{ fontWeight: 300 }}>

@@ -1,11 +1,17 @@
 module.exports = {
   env: {
-    es6: true,
+    es2021: true,
     node: true,
     browser: true
   },
   globals: { connection: 'writable', db: 'writable' },
-  extends: ['plugin:react/recommended', 'standard', 'standard-react'],
+  extends: [
+    'plugin:@next/next/recommended',
+    'plugin:react/recommended',
+    'standard',
+    'standard-jsx',
+    'standard-react'
+  ],
   plugins: ['react', 'react-hooks'],
   parserOptions: {
     ecmaVersion: 2021,
@@ -13,11 +19,7 @@ module.exports = {
     ecmaFeatures: { jsx: true, impliedStrict: true }
   },
   rules: {
-    // React Hooks rules.
-    'react-hooks/rules-of-hooks': 'error',
-    'react-hooks/exhaustive-deps': 'warn',
-    // Allow no-multi-str.
-    'no-multi-str': 'off',
-    'react/jsx-indent': ['error', 2, { checkAttributes: true, indentLogicalExpressions: true }]
+    'react/react-in-jsx-scope': 'off',
+    'react/no-unknown-property': ['error', { ignore: ['jsx', 'global'] }]
   }
 }
