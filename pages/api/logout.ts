@@ -1,6 +1,7 @@
+import { type NextApiHandler } from 'next'
 import { tokens } from './login'
 
-export default async (req, res) => {
+const handler: NextApiHandler = async (req, res) => {
   if (req.method === 'POST') {
     try {
       if (!req.headers.authorization || typeof req.headers.authorization !== 'string') {
@@ -17,3 +18,4 @@ export default async (req, res) => {
     }
   } else res.status(405).json({ error: 'Method Not Allowed!' })
 }
+export default handler

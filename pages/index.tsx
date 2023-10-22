@@ -1,12 +1,13 @@
 import React from 'react'
-import PropTypes from 'prop-types'
+import { type GetServerSidePropsResult } from 'next'
 import Issue from '../src/client/issue'
 import Title from '../src/client/title'
 import Layout from '../src/client/layout'
 
 import { getIssues } from './api/issues'
+import type IssueType from '../src/shared/types/issue'
 
-const Index = (props) => {
+const Index = (props: { issues: IssueType[] }): JSX.Element => {
   return (
     <Layout>
       <Title title='Bug Tracker' url='/' description='A lightweight website that tracks bugs.' />
@@ -14,11 +15,10 @@ const Index = (props) => {
     </Layout>
   )
 }
-Index.propTypes = {
-  issues: PropTypes.array.isRequired
-}
 
-export async function getServerSideProps (context) {
+export async function getServerSideProps (): Promise<GetServerSidePropsResult<{
+  issues: IssueType[]
+}>> {
   let issues
   try {
     issues = await getIssues()
