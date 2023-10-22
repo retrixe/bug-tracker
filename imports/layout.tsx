@@ -1,14 +1,16 @@
 import React from 'react'
-import PropTypes from 'prop-types'
 import useAuth from './useAuth'
 import AnchorLink from './anchorLink'
 
-const Layout = (props) => {
+const Layout = (props: React.PropsWithChildren<Record<string, unknown>>): JSX.Element => {
   const auth = useAuth()
-  const logout = () => {
+  const logout = (): void => {
     const token = localStorage.getItem('token')
-    fetch('/api/logout', { headers: { authorization: token }, method: 'POST' })
-      .then(req => req.ok && window.location.reload())
+    if (token) {
+      fetch('/api/logout', { headers: { authorization: token }, method: 'POST' })
+        .then(req => req.ok && window.location.reload())
+        .catch(console.error)
+    }
   }
   return (
     <div>
@@ -27,9 +29,6 @@ const Layout = (props) => {
       </div>
     </div>
   )
-}
-Layout.propTypes = {
-  children: PropTypes.node.isRequired
 }
 
 const LayoutMemo = React.memo(Layout)

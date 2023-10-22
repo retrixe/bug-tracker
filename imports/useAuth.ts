@@ -3,8 +3,8 @@ import { useEffect, useState } from 'react'
 /**
  * @return {null|boolean} true if authenticated, false if not, null if uncertain.
  */
-const useAuth = () => {
-  const [authenticated, setAuthenticated] = useState(null)
+const useAuth = (): boolean | null => {
+  const [authenticated, setAuthenticated] = useState<boolean | null>(null)
 
   useEffect(() => {
     (async () => {
@@ -17,7 +17,7 @@ const useAuth = () => {
         if (req.ok) setAuthenticated(true)
         else setAuthenticated(false)
       } catch (e) {}
-    })()
+    })().catch(console.error)
   }, [])
 
   return authenticated

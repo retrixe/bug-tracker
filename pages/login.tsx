@@ -3,24 +3,26 @@ import { useRouter } from 'next/router'
 import Title from '../imports/title'
 import Layout from '../imports/layout'
 
-const Login = () => {
+const Login = (): JSX.Element => {
   const router = useRouter()
   const [error, setError] = useState('')
   const [username, setUsername] = useState('')
   const [password, setPassword] = useState('')
-  const onUsernameChange = event => setUsername(event.target.value)
-  const onPasswordChange = event => setPassword(event.target.value)
+  const onUsernameChange: React.ChangeEventHandler<HTMLInputElement> =
+    event => setUsername(event.target.value)
+  const onPasswordChange: React.ChangeEventHandler<HTMLInputElement> =
+    event => setPassword(event.target.value)
 
-  const setToken = token => {
+  const setToken = (token: string): void => {
     localStorage.setItem('token', token)
-    router.push('/')
+    router.push('/').catch(console.error)
   }
-  const login = () => {
+  const login = (): void => {
     fetch('/api/login', {
       headers: { 'content-type': 'application/json' },
       body: JSON.stringify({ username, password }),
       method: 'POST'
-    }).then(e => e.json())
+    }).then(async e => await e.json())
       .then(e => (e.error ? setError(e.error) : setToken(e.token)))
       .catch(() => setError('An unknown error occurred while logging in. Are you online?'))
   }

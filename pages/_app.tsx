@@ -1,6 +1,6 @@
 import React from 'react'
 import Head from 'next/head'
-import PropTypes from 'prop-types'
+import { type AppProps } from 'next/app'
 
 // import '../imports/css/normalize.css'
 // import '../imports/css/skeleton.css'
@@ -8,7 +8,7 @@ import PropTypes from 'prop-types'
 
 const icon = '/assets/icon.png'
 
-function MyApp ({ Component, pageProps }) {
+function MyApp ({ Component, pageProps }: AppProps): JSX.Element {
   return (
     <>
       <Head>
@@ -35,10 +35,6 @@ function MyApp ({ Component, pageProps }) {
       <Component {...pageProps} />
     </>
   )
-}
-MyApp.propTypes = {
-  Component: PropTypes.elementType,
-  pageProps: PropTypes.object
 }
 
 export default MyApp
