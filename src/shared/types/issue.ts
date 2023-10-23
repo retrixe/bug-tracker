@@ -11,6 +11,7 @@ export default interface Issue {
   labels: string[]
   assignedTo: string[]
   replies: Reply[]
+  // TODO: locked and limited to collaborators
   // TODO: no projects or milestones rn
   // TODO: editLog: [],
 }

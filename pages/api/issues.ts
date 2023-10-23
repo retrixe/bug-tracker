@@ -1,30 +1,18 @@
 import { type NextApiHandler } from 'next'
-import { MongoClient, type Db } from 'mongodb'
+import { createStorageBackend } from '../../src/server/storage'
 import type Issue from '../../src/shared/types/issue'
-import config from '../../config.json'
 
-// On startup, create table.
-export const initialiseDb = async (): Promise<Db> => {
-  if (global.db) {
-    await global.connection.connect()
-    return global.db
+// On startup, initialise storage backend.
+export const initialiseStorageBackend = async (): Promise<void> => {
+  if (!global.storageBackend) {
+    global.storageBackend = createStorageBackend()
   }
-  try {
-    const conn = new MongoClient(config.mongoUrl)
-    await conn.connect()
-    global.connection = conn
-    global.db = global.connection.db('bug-tracker')
-    return global.db
-  } catch (err) {
-    console.error(err)
-    process.exit(1)
-  }
+  await global.storageBackend.connect()
 }
 
-export const getIssues = async (includeHidden = true): Promise<Issue[]> => {
-  await initialiseDb()
-  const filter = includeHidden ? {} : { hidden: { $ne: true } }
-  return await db.collection('issues').find<Issue>(filter).toArray()
+export const getIssues = async (includeHidden = false): Promise<Issue[]> => {
+  await initialiseStorageBackend()
+  return await global.storageBackend.getIssues(includeHidden)
 }
 
 const handler: NextApiHandler = async (req, res) => {

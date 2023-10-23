@@ -1,12 +1,10 @@
 import { type NextApiHandler } from 'next'
-import { initialiseDb } from '../issues'
+import { initialiseStorageBackend } from '../issues'
 import type Issue from '../../../src/shared/types/issue'
 
 export const getIssue = async (id: number): Promise<Issue | undefined> => {
-  await initialiseDb()
-  const issue = await db.collection('issues').findOne<Issue>({ id })
-  if (!issue) return
-  return issue
+  await initialiseStorageBackend()
+  return await storageBackend.getIssue(id) ?? undefined
 }
 
 const handler: NextApiHandler = async (req, res) => {
