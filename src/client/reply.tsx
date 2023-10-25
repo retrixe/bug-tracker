@@ -4,18 +4,23 @@ import rehypeReact from 'rehype-react'
 import remarkParse from 'remark-parse'
 import remarkRehype from 'remark-rehype'
 import remarkGfm from 'remark-gfm'
-import styles from './[id].module.css'
+import styles from './reply.module.css'
 import type ReplyType from '../shared/types/reply'
+
+import * as prod from 'react/jsx-runtime'
+
+// @ts-expect-error: the react types are missing.
+const production = { Fragment: prod.Fragment, jsx: prod.jsx, jsxs: prod.jsxs }
 
 type ReplyActionProps = Omit<ReplyType, 'timestamp'> & { date: string }
 
 export const Reply = (props: Omit<ReplyActionProps, 'action'>): JSX.Element => {
   const content = React.useMemo(
     () => unified()
-      .use(remarkParse)
+      .use(remarkParse, { fragment: true })
       .use(remarkGfm)
       .use(remarkRehype)
-      .use(rehypeReact, true)
+      .use(rehypeReact, production)
       .processSync(props.content)
       .result,
     [props.content]

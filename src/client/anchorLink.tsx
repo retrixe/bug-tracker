@@ -6,10 +6,8 @@ const AnchorLink = (props: React.PropsWithChildren<{
   as?: string
   prefetch?: boolean
 }>): JSX.Element => (
-  <Link passHref href={props.href} as={props.as} prefetch={props.prefetch}>
-    <a style={{ textDecoration: 'none', color: 'inherit' }}>
-      {props.children}
-    </a>
+  <Link href={props.href} as={props.as} prefetch={props.prefetch} style={{ textDecoration: 'none', color: 'inherit' }}>
+    {props.children}
   </Link>
 )
 
