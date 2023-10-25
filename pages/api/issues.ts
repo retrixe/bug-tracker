@@ -18,7 +18,7 @@ export const getIssues = async (includeHidden = false): Promise<Issue[]> => {
 const handler: NextApiHandler = async (req, res) => {
   if (req.method === 'GET') {
     try {
-      // TODO: Support confidential issues.
+      // TODO: Support confidential issues for privileged logged in users.
       const issues = await getIssues()
       res.status(200).json(issues)
     } catch (e) {

@@ -6,6 +6,7 @@ const mockData = [
     id: 1,
     open: true,
     hidden: false,
+    locked: false,
     title: 'Open issue example',
     author: 'retrixe',
     content: '**Hello world!**',

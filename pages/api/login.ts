@@ -2,6 +2,7 @@ import { createHash, randomBytes } from 'crypto'
 import { readFile } from 'fs/promises'
 import { type NextApiHandler } from 'next'
 
+// TODO: Privilege system for users
 export const tokens: Record<string, string> = {} // TODO: Better system is required.
 
 const INVALID_BODY =
