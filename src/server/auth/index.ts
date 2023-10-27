@@ -1,15 +1,16 @@
 import { randomBytes } from 'crypto'
 import config from '../config'
 import InMemoryAuthBackend from './memory'
+import MythicAuthBackend from './mythic'
 import RedisAuthBackend from './redis'
 
 export const createAuthBackend = (): AuthBackend => {
-  // if (config.mythicAuth) {
-  //   if (!config.redisUrl) {
-  //     throw new Error('MythicMC authentication backend requires a Redis URL in config!')
-  //   }
-  //   return new MythicAuthBackend(config.redisUrl)
-  if (config.redisUrl) {
+  if (config.mythicAuth) {
+    if (!config.redisUrl) {
+      throw new Error('MythicMC authentication backend requires a Redis URL in config!')
+    }
+    return new MythicAuthBackend(config.redisUrl)
+  } else if (config.redisUrl) {
     return new RedisAuthBackend(config.redisUrl)
   } else {
     return new InMemoryAuthBackend()
