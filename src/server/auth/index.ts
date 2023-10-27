@@ -1,5 +1,7 @@
 import { randomBytes } from 'crypto'
+import config from '../config'
 import InMemoryAuthBackend from './memory'
+import RedisAuthBackend from './redis'
 
 export const createAuthBackend = (): AuthBackend => {
   // if (config.mythicAuth) {
@@ -7,11 +9,11 @@ export const createAuthBackend = (): AuthBackend => {
   //     throw new Error('MythicMC authentication backend requires a Redis URL in config!')
   //   }
   //   return new MythicAuthBackend(config.redisUrl)
-  // } else if (config.redisUrl) {
-  //   return new RedisAuthBackend(config.redisUrl)
-  // } else {
-  return new InMemoryAuthBackend()
-  // }
+  if (config.redisUrl) {
+    return new RedisAuthBackend(config.redisUrl)
+  } else {
+    return new InMemoryAuthBackend()
+  }
 }
 
 export const createToken = (username: string, time: number): string => {

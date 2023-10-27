@@ -15,6 +15,7 @@
     "dev": "next"
   },
   "dependencies": {
+    "ioredis": "^5.3.2",
     "luxon": "^3.4.3",
     "mongodb": "^6.2.0",
     "next": "^13.5.6",
