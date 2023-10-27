@@ -1,3 +1,4 @@
+import { randomBytes } from 'crypto'
 import InMemoryAuthBackend from './memory'
 
 export const createAuthBackend = (): AuthBackend => {
@@ -13,10 +14,17 @@ export const createAuthBackend = (): AuthBackend => {
   // }
 }
 
+export const createToken = (username: string, time: number): string => {
+  const randomBytesEncoded = randomBytes(16).toString('hex') // 32 characters
+  const timeEncoded = time.toString(16).padStart(16, '0')
+  const userEncoded = Buffer.from(username).toString('base64').padEnd(24, '=')
+  return `${randomBytesEncoded}.${timeEncoded}.${userEncoded}`
+}
+
 export default interface AuthBackend {
   connect: () => Promise<void>
 
   login: (username: string, password: string) => Promise<string | null>
   logout: (token: string) => Promise<boolean>
-  validate: (token: string) => Promise<[string, boolean] | null>
+  validate: (token: string) => Promise<boolean | null>
 }

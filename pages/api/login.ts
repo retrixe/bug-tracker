@@ -1,12 +1,13 @@
 import { type NextApiHandler } from 'next'
 
-const INVALID_BODY =
-  'Invalid body! Make sure to have a username/password in JSON with Content-Type application/json.'
 const handler: NextApiHandler = async (req, res) => {
   if (req.method === 'POST') {
     try {
       if (!req.body?.username || !req.body.password) {
-        return res.status(400).json({ error: INVALID_BODY })
+        return res.status(400).json({
+          error: 'Invalid body! Make sure to have a username/password in JSON with ' +
+            'Content-Type application/json.'
+        })
       }
       const token = await authBackend.login(req.body.username, req.body.password)
       if (!token) {

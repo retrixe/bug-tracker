@@ -16,8 +16,8 @@ const handler: NextApiHandler = async (req, res) => {
       await initialiseStorageBackend()
       await initialiseAuthBackend()
 
-      const userInfo = await authBackend.validate(req.headers.authorization ?? '')
-      const issues = await storageBackend.getIssues(userInfo?.[1])
+      const privileged = await authBackend.validate(req.headers.authorization ?? '')
+      const issues = await storageBackend.getIssues(privileged ?? false)
       res.status(200).json(issues)
     } catch (e) {
       console.error(e)

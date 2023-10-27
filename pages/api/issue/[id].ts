@@ -10,7 +10,7 @@ const handler: NextApiHandler = async (req, res) => {
 
       const id = req.query.id ? +req.query.id : NaN
       if (isNaN(id)) return res.status(200).json({ error: 'Invalid issue ID provided!' })
-      const [, privileged] = await authBackend.validate(req.headers.authorization ?? '')
+      const privileged = await authBackend.validate(req.headers.authorization ?? '')
       let issue = await storageBackend.getIssue(id)
       if (issue?.hidden && !privileged) issue = null
       res.status(issue ? 200 : 404).json(issue ?? { error: 'This issue was not found!' })
