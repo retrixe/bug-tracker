@@ -24,7 +24,7 @@ export default class MockStorageBackend implements StorageBackend {
     return mockData.find(issue => issue.id === id) ?? null
   }
 
-  async getIssues (includeHidden: boolean): Promise<Issue[]> {
+  async getIssues (includeHidden?: boolean): Promise<Issue[]> {
     return mockData
   }
 }

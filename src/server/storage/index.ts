@@ -1,7 +1,7 @@
 import type Issue from '../../shared/types/issue'
+import MockStorageBackend from './mock'
 import MongoDBStorageBackend from './mongodb'
 import config from '../config'
-import MockStorageBackend from './mock'
 
 export const createStorageBackend = (): StorageBackend => {
   if (config.mongoUrl) {
@@ -18,5 +18,5 @@ export default interface StorageBackend {
   connect: () => Promise<void>
 
   getIssue: (id: number) => Promise<Issue | null>
-  getIssues: (includeHidden: boolean) => Promise<Issue[]>
+  getIssues: (includeHidden?: boolean) => Promise<Issue[]>
 }

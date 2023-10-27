@@ -1,18 +1,18 @@
 import { type NextApiHandler } from 'next'
 import { initialiseStorageBackend } from '../issues'
-import type Issue from '../../../src/shared/types/issue'
-
-export const getIssue = async (id: number): Promise<Issue | undefined> => {
-  await initialiseStorageBackend()
-  return await storageBackend.getIssue(id) ?? undefined
-}
+import { initialiseAuthBackend } from '../auth'
 
 const handler: NextApiHandler = async (req, res) => {
   if (req.method === 'GET') {
     try {
+      await initialiseStorageBackend()
+      await initialiseAuthBackend()
+
       const id = req.query.id ? +req.query.id : NaN
       if (isNaN(id)) return res.status(200).json({ error: 'Invalid issue ID provided!' })
-      const issue = await getIssue(id)
+      const [, privileged] = await authBackend.validate(req.headers.authorization ?? '')
+      let issue = await storageBackend.getIssue(id)
+      if (issue?.hidden && !privileged) issue = null
       res.status(issue ? 200 : 404).json(issue ?? { error: 'This issue was not found!' })
     } catch (e) {
       console.error(e)

@@ -1,16 +1,18 @@
 import { type NextApiHandler } from 'next'
-import { tokens } from './login'
+import { initialiseAuthBackend } from './auth'
 
 const handler: NextApiHandler = async (req, res) => {
   if (req.method === 'POST') {
+    await initialiseAuthBackend()
+
     try {
       if (!req.headers.authorization || typeof req.headers.authorization !== 'string') {
         return res.status(400).json({ error: 'Authorization header is invalid!' })
       }
-      if (!tokens[req.headers.authorization]) {
+      const logout = await authBackend.logout(req.headers.authorization)
+      if (!logout) {
         return res.status(403).json({ error: 'Invalid credentials have been provided!' })
       }
-      delete tokens[req.headers.authorization]
       return res.status(200).json({ success: true })
     } catch (e) {
       console.error(e)

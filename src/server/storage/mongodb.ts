@@ -15,7 +15,7 @@ export default class MongoDBStorageBackend implements StorageBackend {
     await this.connection.connect()
   }
 
-  async getIssues (includeHidden: boolean): Promise<Issue[]> {
+  async getIssues (includeHidden?: boolean): Promise<Issue[]> {
     const filter = includeHidden ? {} : { hidden: { $ne: true } }
     return await this.db.collection('issues').find<Issue>(filter).toArray()
   }
