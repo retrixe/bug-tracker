@@ -1,18 +1,7 @@
 import { type NextApiHandler } from 'next'
-import { createAuthBackend } from '../../src/server/auth'
-
-// On startup, initialise auth backend.
-export const initialiseAuthBackend = async (): Promise<void> => {
-  if (!global.authBackend) {
-    global.authBackend = createAuthBackend()
-  }
-  await global.authBackend.connect()
-}
 
 const handler: NextApiHandler = async (req, res) => {
   if (req.method === 'GET') {
-    await initialiseAuthBackend()
-
     if (!req.headers.authorization || typeof req.headers.authorization !== 'string') {
       return res.status(401).json({ error: 'No token provided!' })
     }

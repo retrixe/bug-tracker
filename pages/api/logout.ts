@@ -1,10 +1,7 @@
 import { type NextApiHandler } from 'next'
-import { initialiseAuthBackend } from './auth'
 
 const handler: NextApiHandler = async (req, res) => {
   if (req.method === 'POST') {
-    await initialiseAuthBackend()
-
     try {
       if (!req.headers.authorization || typeof req.headers.authorization !== 'string') {
         return res.status(400).json({ error: 'Authorization header is invalid!' })

@@ -4,9 +4,8 @@ import Title from '../../src/client/title'
 import Layout from '../../src/client/layout'
 import Reply, { ReplyComment } from '../../src/client/reply'
 
-import { getIssue } from '../api/issue/[id]'
 import type Issue from '../../src/shared/types/issue'
-import { type GetServerSidePropsContext, type GetServerSidePropsResult } from 'next'
+import { type GetServerSidePropsContext as Ctx, type GetServerSidePropsResult as Res } from 'next'
 import { ReplyAction } from '../../src/shared/types/reply'
 
 const IssuePage = ({ issue }: { issue: Issue }): JSX.Element => {
@@ -57,13 +56,11 @@ const IssuePage = ({ issue }: { issue: Issue }): JSX.Element => {
   )
 }
 
-export async function getServerSideProps (context: GetServerSidePropsContext): Promise<
-GetServerSidePropsResult<{ issue: Issue | null }>> {
+export async function getServerSideProps (context: Ctx): Promise<Res<{ issue: Issue | null }>> {
   if (!context.params?.id || isNaN(+context.params.id)) return { props: { issue: null } }
-  let issue
-  try { issue = await getIssue(+context.params.id) } catch (e) { console.error(e) }
-  if (issue?.hidden) issue = null // TODO: Cookie based auth can avoid this
-  return { props: { issue: issue ?? null } }
+  let issue = await storageBackend.getIssue(+context.params.id).catch(console.error) ?? null
+  if (issue?.hidden) issue = null // TODO: Authenticated users can see hidden issues.
+  return { props: { issue } }
 }
 
 export default IssuePage
