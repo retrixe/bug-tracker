@@ -11,7 +11,7 @@
     "postinstall": "husky install",
     "start": "next start",
     "build": "next build",
-    "lint": "next lint",
+    "lint": "next lint && tsc",
     "dev": "next"
   },
   "dependencies": {

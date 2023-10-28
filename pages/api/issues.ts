@@ -1,6 +1,7 @@
 import { type NextApiHandler } from 'next'
 import { createStorageBackend } from '../../src/server/storage'
 import { initialiseAuthBackend } from './auth'
+import type Issue from '../../src/shared/types/issue'
 
 // On startup, initialise storage backend.
 export const initialiseStorageBackend = async (): Promise<void> => {
@@ -10,14 +11,18 @@ export const initialiseStorageBackend = async (): Promise<void> => {
   await global.storageBackend.connect()
 }
 
+export const getIssues = async (includeHidden?: boolean): Promise<Issue[]> => {
+  await initialiseStorageBackend()
+  return await storageBackend.getIssues(includeHidden)
+}
+
 const handler: NextApiHandler = async (req, res) => {
   if (req.method === 'GET') {
     try {
-      await initialiseStorageBackend()
       await initialiseAuthBackend()
 
       const privileged = await authBackend.validate(req.headers.authorization ?? '')
-      const issues = await storageBackend.getIssues(privileged ?? false)
+      const issues = await getIssues(privileged ?? false)
       res.status(200).json(issues)
     } catch (e) {
       console.error(e)

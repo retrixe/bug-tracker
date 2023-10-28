@@ -61,6 +61,7 @@ GetServerSidePropsResult<{ issue: Issue | null }>> {
   if (!context.params?.id || isNaN(+context.params.id)) return { props: { issue: null } }
   let issue
   try { issue = await getIssue(+context.params.id) } catch (e) { console.error(e) }
+  if (issue?.hidden) issue = null // TODO: Cookie based auth can avoid this
   return { props: { issue: issue ?? null } }
 }
 

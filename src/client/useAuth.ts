@@ -13,6 +13,7 @@ const useAuth = (): boolean | null => {
       if (!token) return
 
       try {
+        // TODO: Use ky and support returning privileges
         const req = await fetch('/api/auth', { headers: { authorization: token } })
         if (req.ok) setAuthenticated(true)
         else setAuthenticated(false)

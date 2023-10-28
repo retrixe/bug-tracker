@@ -21,7 +21,7 @@ export async function getServerSideProps (): Promise<GetServerSidePropsResult<{
 }>> {
   let issues
   try {
-    issues = await getIssues()
+    issues = await getIssues(false) // TODO: Cookie-based auth?
   } catch (e) { console.error(e) }
   return {
     props: { issues: issues ?? [] }
