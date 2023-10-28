@@ -2,15 +2,16 @@ import React from 'react'
 import { DateTime } from 'luxon'
 import Title from '../../src/client/title'
 import Layout from '../../src/client/layout'
-import ReplyAction, { Reply } from '../../src/client/reply'
+import Reply, { ReplyComment } from '../../src/client/reply'
 
 import { getIssue } from '../api/issue/[id]'
 import type Issue from '../../src/shared/types/issue'
 import { type GetServerSidePropsContext, type GetServerSidePropsResult } from 'next'
+import { ReplyAction } from '../../src/shared/types/reply'
 
 const IssuePage = ({ issue }: { issue: Issue }): JSX.Element => {
   const comments = React.useMemo(
-    () => issue?.replies.filter(reply => reply.action === 'reply').length, [issue]
+    () => issue?.replies.filter(reply => reply.action === ReplyAction.COMMENT).length, [issue]
   )
   if (!issue) {
     return (
@@ -42,9 +43,9 @@ const IssuePage = ({ issue }: { issue: Issue }): JSX.Element => {
         <b>{issue.author}</b> opened this issue on {date} · {comments} comment{comments > 1 ? 's' : ''}
       </span>
       {/* <hr style={{ marginTop: '1em', marginBottom: '1em', color: '#eee', backgroundColor: '#eee' }} /> */}
-      <Reply date={date} content={issue.content} author={issue.author} />
+      <ReplyComment date={date} content={issue.content} author={issue.author} />
       {issue.replies.map((reply, index) => (
-        <ReplyAction
+        <Reply
           key={index}
           date={DateTime.fromMillis(reply.timestamp).toLocaleString(DateTime.DATE_MED)}
           author={reply.author}

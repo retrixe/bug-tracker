@@ -8,13 +8,14 @@ import styles from './reply.module.css'
 import type ReplyType from '../shared/types/reply'
 
 import * as prod from 'react/jsx-runtime'
+import { ReplyAction } from '../shared/types/reply'
 
 // @ts-expect-error: the react types are missing.
 const production = { Fragment: prod.Fragment, jsx: prod.jsx, jsxs: prod.jsxs }
 
 type ReplyActionProps = Omit<ReplyType, 'timestamp'> & { date: string }
 
-export const Reply = (props: Omit<ReplyActionProps, 'action'>): JSX.Element => {
+export const ReplyComment = (props: Omit<ReplyActionProps, 'action'>): JSX.Element => {
   const content = React.useMemo(
     () => unified()
       .use(remarkParse, { fragment: true })
@@ -55,13 +56,22 @@ export const Reply = (props: Omit<ReplyActionProps, 'action'>): JSX.Element => {
   )
 }
 
-const ReplyAction = (props: ReplyActionProps): JSX.Element => {
-  if (props.action === 'reply') return <Reply {...props} />
+const Reply = (props: ReplyActionProps): JSX.Element => {
+  if (props.action === ReplyAction.COMMENT) {
+    return <ReplyComment {...props} />
+  }
   return (
     <div style={{ marginTop: '1.5em', display: 'flex' }}>
-      {props.action === 'close' && <span><b>{props.author}</b> closed this issue on {props.date}</span>}
-      {props.action === 'edit' && <span><b>{props.author}</b> edited this issue on {props.date}</span>}
-      {props.action === 'titleEdit' && (
+      {props.action === ReplyAction.OPEN_CLOSE && (
+        <span><b>{props.author}</b> {props.content} this issue on {props.date}</span>
+      )}
+      {props.action === ReplyAction.HIDE_UNHIDE && (
+        <span><b>{props.author}</b> {props.content} this issue on {props.date}</span>
+      )}
+      {props.action === ReplyAction.LOCK_UNLOCK && (
+        <span><b>{props.author}</b> {props.content} this issue on {props.date}</span>
+      )}
+      {props.action === ReplyAction.EDIT_TITLE && (
         <span>
           <b>{props.author}</b> edited the title of this issue on {props.date} from
           <b> {props.content.split('\n')[0]}</b> to <b>{props.content.split('\n')[1]}</b>
@@ -72,4 +82,4 @@ const ReplyAction = (props: ReplyActionProps): JSX.Element => {
   )
 }
 
-export default ReplyAction
+export default Reply

@@ -4,8 +4,8 @@ import type Reply from './reply'
 export default interface Issue {
   id: number
   open: boolean // TODO: Make editable for logged in users
-  locked: boolean // TODO: Make editable for logged in users, currently not respected or viewable, no corresponding reply action.
-  hidden: boolean // TODO: Make editable for logged in users, no corresponding reply action.
+  locked: boolean // TODO: Make editable for logged in users, currently not viewable
+  hidden: boolean // TODO: Make editable for logged in users
   title: string // TODO: Make editable for logged in users
   author: string
   content: string // TODO: Make editable for logged in users

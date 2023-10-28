@@ -18,5 +18,6 @@ export default interface StorageBackend {
   connect: () => Promise<void>
 
   getIssue: (id: number) => Promise<Issue | null>
+  // TODO: Filter properties, support search parameters and pagination
   getIssues: (includeHidden?: boolean) => Promise<Issue[]>
 }
