@@ -1,16 +1,12 @@
 import React from 'react'
-import useAuth from './useAuth'
+import api from './hooks/api'
+import useAuth from './hooks/useAuth'
 import AnchorLink from './anchorLink'
 
 const Layout = (props: React.PropsWithChildren<Record<string, unknown>>): JSX.Element => {
   const auth = useAuth()
   const logout = (): void => {
-    const token = localStorage.getItem('token')
-    if (token) {
-      fetch('/api/logout', { headers: { authorization: token }, method: 'POST' })
-        .then(req => req.ok && window.location.reload())
-        .catch(console.error)
-    }
+    api.post('logout').then(window.location.reload).catch(console.error)
   }
   return (
     <div>

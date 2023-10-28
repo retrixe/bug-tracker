@@ -1,4 +1,5 @@
 import { type NextApiHandler } from 'next'
+// import { cookies } from 'next/headers'
 
 const handler: NextApiHandler = async (req, res) => {
   if (req.method === 'POST') {
@@ -13,7 +14,10 @@ const handler: NextApiHandler = async (req, res) => {
       if (!token) {
         return res.status(401).json({ error: 'Invalid credentials have been provided!' })
       }
-      return res.status(200).json({ token }) // TODO: Consider using cookies.
+      // TODO: Use cookies, then accept them in frontend SSR functions as well?
+      // cookies().set('X-Authorization', token, {
+      //   httpOnly: true, sameSite: 'strict', secure: true, maxAge: 60 * 60 * 24 * 365 })
+      return res.status(200).json({ token })
     } catch (e) {
       console.error(e)
       res.status(500).json({ error: 'Internal Server Error!' })

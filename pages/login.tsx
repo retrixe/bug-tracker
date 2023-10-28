@@ -2,6 +2,7 @@ import React, { useState } from 'react'
 import { useRouter } from 'next/router'
 import Title from '../src/client/title'
 import Layout from '../src/client/layout'
+import api from '../src/client/hooks/api'
 
 const Login = (): JSX.Element => {
   const router = useRouter()
@@ -14,16 +15,13 @@ const Login = (): JSX.Element => {
     event => setPassword(event.target.value)
 
   const setToken = (token: string): void => {
-    localStorage.setItem('token', token)
+    localStorage.setItem('bug-tracker:token', token)
     router.push('/').catch(console.error)
   }
   const login = (): void => {
-    fetch('/api/login', {
-      headers: { 'content-type': 'application/json' },
-      body: JSON.stringify({ username, password }),
-      method: 'POST'
-    }).then(async e => await e.json())
-      .then(e => (e.error ? setError(e.error) : setToken(e.token)))
+    api.post('/api/login', { json: { username, password }, throwHttpErrors: false })
+      .json<{ error?: string, token?: string }>()
+      .then(e => (e.error ? setError(e.error) : setToken(e.token ?? '')))
       .catch(() => setError('An unknown error occurred while logging in. Are you online?'))
   }
 
