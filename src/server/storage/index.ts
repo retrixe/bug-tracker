@@ -1,4 +1,5 @@
 import type Issue from '../../shared/types/issue'
+import type Label from '../../shared/types/label'
 import MockStorageBackend from './mock'
 import MongoDBStorageBackend from './mongodb'
 import config from '../config'
@@ -20,4 +21,5 @@ export default interface StorageBackend {
   getIssue: (id: number) => Promise<Issue | null>
   // TODO: Filter properties, support search parameters and pagination
   getIssues: (includeHidden?: boolean) => Promise<Issue[]>
+  getLabels: () => Promise<Label[]>
 }

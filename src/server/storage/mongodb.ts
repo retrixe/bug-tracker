@@ -1,6 +1,7 @@
 import { type Db, MongoClient } from 'mongodb'
 import type StorageBackend from '.'
 import type Issue from '../../shared/types/issue'
+import type Label from '../../shared/types/label'
 
 export default class MongoDBStorageBackend implements StorageBackend {
   connection: MongoClient
@@ -22,5 +23,9 @@ export default class MongoDBStorageBackend implements StorageBackend {
 
   async getIssue (id: number): Promise<Issue | null> {
     return await this.db.collection('issues').findOne<Issue>({ id })
+  }
+
+  async getLabels (): Promise<Label[]> {
+    return await this.db.collection('labels').distinct('name')
   }
 }

@@ -28,4 +28,11 @@ export default class MockStorageBackend implements StorageBackend {
   async getIssues (includeHidden?: boolean): Promise<Issue[]> {
     return mockData.filter(issue => !!includeHidden || !issue.hidden)
   }
+
+  async getLabels (): Promise<Label[]> {
+    return [
+      { name: 'bug', color: '#ed616f', description: 'Bugs and issues' },
+      { name: 'enhancement', color: '#bed3e5', description: 'Enhancements and feature requests' }
+    ]
+  }
 }
