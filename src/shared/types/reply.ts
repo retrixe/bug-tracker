@@ -9,6 +9,6 @@ export enum ReplyAction {
 export default interface Reply {
   author: string
   content: string
-  timestamp: number
+  createdAt: number
   action: ReplyAction
 }

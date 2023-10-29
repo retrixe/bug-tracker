@@ -13,7 +13,7 @@ import { ReplyAction } from '../shared/types/reply'
 // @ts-expect-error: the react types are missing.
 const production = { Fragment: prod.Fragment, jsx: prod.jsx, jsxs: prod.jsxs }
 
-type ReplyActionProps = Omit<ReplyType, 'timestamp'> & { date: string }
+type ReplyActionProps = Omit<ReplyType, 'createdAt'> & { date: string }
 
 export const ReplyComment = (props: Omit<ReplyActionProps, 'action'>): JSX.Element => {
   const content = React.useMemo(

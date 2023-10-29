@@ -21,7 +21,7 @@ const IssuePage = ({ issue }: { issue: Issue }): JSX.Element => {
     )
   }
   // TODO: labels, assignedTo
-  const date = DateTime.fromMillis(issue.timestamp).toLocaleString(DateTime.DATE_MED)
+  const date = DateTime.fromMillis(issue.createdAt).toLocaleString(DateTime.DATE_MED)
   return (
     <Layout>
       <Title title='Bug Tracker' url='/' description='A lightweight website that tracks bugs.' />
@@ -46,7 +46,7 @@ const IssuePage = ({ issue }: { issue: Issue }): JSX.Element => {
       {issue.replies.map((reply, index) => (
         <Reply
           key={index}
-          date={DateTime.fromMillis(reply.timestamp).toLocaleString(DateTime.DATE_MED)}
+          date={DateTime.fromMillis(reply.createdAt).toLocaleString(DateTime.DATE_MED)}
           author={reply.author}
           content={reply.content}
           action={reply.action}
