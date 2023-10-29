@@ -2,11 +2,13 @@ import React from 'react'
 import { DateTime } from 'luxon'
 import AnchorLink from './anchorLink'
 import Label from './label'
+import { type IssueWithoutBody } from '../shared/types/issue'
+import type LabelType from '../shared/types/label'
 
 const issueSvgPath = 'M8 1.5a6.5 6.5 0 100 13 6.5 6.5 0 000-13zM0 8a8 8 0 1116 0A8 8 0 010 8zm9 ' +
   '3a1 1 0 11-2 0 1 1 0 012 0zm-.25-6.25a.75.75 0 00-1.5 0v3.5a.75.75 0 001.5 0v-3.5z'
 
-const Issue = ({ issue }: { issue: IssueType }): JSX.Element => {
+const Issue = ({ issue, labels }: { issue: IssueWithoutBody, labels: LabelType[] }): JSX.Element => {
   const date = DateTime.fromMillis(issue.createdAt).toLocaleString(DateTime.DATE_MED)
   return (
     <div style={{ borderBottom: '1px solid black', paddingBottom: 8 }}>
@@ -16,14 +18,15 @@ const Issue = ({ issue }: { issue: IssueType }): JSX.Element => {
         </svg>
         <div style={{ width: 4 }} />
         <AnchorLink href={`/issue/${issue.id}`} prefetch={false}><b> {issue.title}</b></AnchorLink>
-        {issue.labels.map(label => ( // TODO: color, description
-          <Label key={label} name={label} color='#BED3E5' description='N/A' />
-        ))}
+        {issue.labels.map(label => {
+          const labelObj = labels.find(l => l.name === label)
+          if (!labelObj) return null
+          return <Label key={label} {...labelObj} />
+        })}
       </div>
       <sub>#{issue.id} opened on {date} by {issue.author}</sub>
     </div>
   )
 }
 
-const IssueMemo = React.memo(Issue)
-export default IssueMemo
+export default Issue

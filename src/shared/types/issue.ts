@@ -1,4 +1,3 @@
-import type Label from './label'
 import type Reply from './reply'
 
 // TODO: Add create issue, label and reply UI
@@ -18,3 +17,5 @@ export default interface Issue {
   // TODO: no projects or milestones rn
   // TODO: editLog: [],
 }
+
+export type IssueWithoutBody = Omit<Omit<Issue, 'content'>, 'replies'>

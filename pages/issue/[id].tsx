@@ -8,10 +8,9 @@ import type Issue from '../../src/shared/types/issue'
 import { type GetServerSidePropsContext as Ctx, type GetServerSidePropsResult as Res } from 'next'
 import { ReplyAction } from '../../src/shared/types/reply'
 
-const IssuePage = ({ issue }: { issue: Issue }): JSX.Element => {
-  const comments = React.useMemo(
-    () => issue?.replies.filter(reply => reply.action === ReplyAction.COMMENT).length, [issue]
-  )
+interface Props { issue: Issue | null }
+
+const IssuePage = ({ issue }: Props): JSX.Element => {
   if (!issue) {
     return (
       <Layout>
@@ -21,6 +20,7 @@ const IssuePage = ({ issue }: { issue: Issue }): JSX.Element => {
     )
   }
   // TODO: labels, assignedTo
+  const comments = issue.replies.filter(reply => reply.action === ReplyAction.COMMENT).length
   const date = DateTime.fromMillis(issue.createdAt).toLocaleString(DateTime.DATE_MED)
   return (
     <Layout>
@@ -56,7 +56,7 @@ const IssuePage = ({ issue }: { issue: Issue }): JSX.Element => {
   )
 }
 
-export async function getServerSideProps (context: Ctx): Promise<Res<{ issue: Issue | null }>> {
+export async function getServerSideProps (context: Ctx): Promise<Res<Props>> {
   if (!context.params?.id || isNaN(+context.params.id)) return { props: { issue: null } }
   let issue = await storageBackend.getIssue(+context.params.id).catch(console.error) ?? null
   if (issue?.hidden) issue = null // TODO: Authenticated users can see hidden issues.
