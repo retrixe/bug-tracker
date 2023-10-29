@@ -1,10 +1,12 @@
-import { createAuthBackend } from './src/server/auth'
-import { createStorageBackend } from './src/server/storage'
-
 export async function register (): Promise<void> {
-  global.authBackend = createAuthBackend()
-  await global.authBackend.connect()
+  if (process.env.NEXT_RUNTIME === 'nodejs') {
+    const { createAuthBackend } = await import('./src/server/auth')
+    const { createStorageBackend } = await import('./src/server/storage')
 
-  global.storageBackend = createStorageBackend()
-  await global.storageBackend.connect()
+    global.authBackend = createAuthBackend()
+    await global.authBackend.connect()
+
+    global.storageBackend = createStorageBackend()
+    await global.storageBackend.connect()
+  }
 }

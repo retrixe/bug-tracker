@@ -5,7 +5,7 @@
   "repository": "https://github.com/retrixe/bug-tracker.git",
   "author": "Ibrahim Ansari <ansari.ibrahim1@gmail.com>",
   "license": "Apache-2.0",
-  "packageManager": "yarn@4.0.0",
+  "packageManager": "yarn@4.0.1",
   "private": true,
   "scripts": {
     "postinstall": "husky install",
