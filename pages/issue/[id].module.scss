@@ -1,0 +1,17 @@
+.issue-status {
+  padding: 8px;
+  color: white;
+  margin-right: 8px;
+  border-radius: 16px;
+  display: inline;
+  &.green {
+    background-color: green;
+  }
+  &.red {
+    background-color: red;
+  }
+}
+
+.thin {
+  font-weight: 300;
+}

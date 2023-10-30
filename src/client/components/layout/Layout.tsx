@@ -2,6 +2,7 @@ import React from 'react'
 import api from '../../hooks/api'
 import useAuth from '../../hooks/useAuth'
 import UnstyledLink from './UnstyledLink'
+import styles from './Layout.module.scss'
 
 const Layout = (props: React.PropsWithChildren<Record<string, unknown>>): JSX.Element => {
   const auth = useAuth()
@@ -10,16 +11,16 @@ const Layout = (props: React.PropsWithChildren<Record<string, unknown>>): JSX.El
   }
   return (
     <div>
-      <div style={{ borderBottom: '2px solid black', padding: '8px', display: 'flex', alignItems: 'center' }}>
+      <div className={styles.header}>
         <h1><UnstyledLink href='/'>Bug Tracker</UnstyledLink></h1>
-        <div style={{ flex: 1 }} />
+        <div className={styles['flex-spacer']} />
         <h4>
           {auth
-            ? <span onClick={logout} style={{ cursor: 'pointer' }}>Logout</span>
+            ? <span onClick={logout} className={styles['logout-button']}>Logout</span>
             : <UnstyledLink href='/login'>Login</UnstyledLink>}
         </h4>
       </div>
-      <div style={{ margin: '8px' }}>
+      <div className={styles['layout-contents']}>
         {props.children}
       </div>
     </div>

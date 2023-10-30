@@ -1,0 +1,18 @@
+.header {
+  border-bottom: 2px solid black;
+  padding: 8px;
+  display: flex;
+  align-items: center;
+}
+
+.flex-spacer {
+  flex: 1;
+}
+
+.layout-contents {
+  margin: 8px;
+}
+
+.logout-button {
+  cursor: pointer;
+}
