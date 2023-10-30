@@ -12,14 +12,14 @@ export default interface Issue {
   createdAt: number
   updatedAt: number
   labels: string[] // FIXME: Make editable for logged in users
-  assignedTo: string[] // FIXME: Make editable for logged in users
+  assignees: string[] // FIXME: Make editable for logged in users
   replies: Reply[]
   // TODO: no projects or milestones rn
   // TODO: editLog: [],
 }
 
 // Expected by POST /api/issue
-export type IssueBody = Pick<Issue, 'title' | 'content' | 'labels' | 'assignedTo'>
+export type IssueBody = Pick<Issue, 'title' | 'content' | 'labels' | 'assignees'>
 
 // Expected by storage backend, id/replies/createdAt/updatedAt are handled by the backend
 export type IssueBodyWithProps = IssueBody & Pick<Issue, 'open' | 'locked' | 'hidden' | 'author'>

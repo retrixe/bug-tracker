@@ -17,7 +17,7 @@ const mockData: Issue[] = [
     createdAt: Date.now(),
     updatedAt: Date.now(),
     labels: ['bug', 'enhancement'],
-    assignedTo: ['retrixe'],
+    assignees: ['retrixe'],
     replies: [
       {
         action: ReplyAction.COMMENT,
@@ -57,7 +57,7 @@ export default class MockStorageBackend implements StorageBackend {
     const newIssue = { ...issue, id, createdAt: Date.now(), updatedAt: Date.now(), replies: [] }
     if (issue.labels.some(name => !mockLabels.find(label => label.name === name))) {
       throw new ValidationError('Invalid label(s) specified!')
-    } else if (issue.assignedTo.some(name => !['retrixe'].includes(name))) {
+    } else if (issue.assignees.some(name => !['retrixe'].includes(name))) {
       throw new ValidationError('Invalid assignee(s) specified!')
     }
     mockData.push(newIssue)

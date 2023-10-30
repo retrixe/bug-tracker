@@ -72,7 +72,7 @@ const IssuePage = ({ issue: issueProp }: Props): JSX.Element => {
         {/* FIXME: auth && (reply UI) */}
       </div>
       <div className={styles.sidebar}>
-        {/* FIXME: labels, assignedTo */}
+        {/* FIXME: labels, assignees */}
       </div>
     </Layout>
   )

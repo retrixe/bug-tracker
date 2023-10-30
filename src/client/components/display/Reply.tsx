@@ -44,14 +44,14 @@ const Reply = (props: ReplyActionProps): JSX.Element => {
   }
   return ( // TODO: Add icons next to each action.
     <div className={styles.container}>
-      {props.action === ReplyAction.OPEN_CLOSE && (
-        <span><b>{props.author}</b> {props.content} this issue on {props.date}</span>
-      )}
-      {props.action === ReplyAction.HIDE_UNHIDE && (
-        <span><b>{props.author}</b> {props.content} this issue on {props.date}</span>
-      )}
-      {props.action === ReplyAction.LOCK_UNLOCK && (
-        <span><b>{props.author}</b> {props.content} this issue on {props.date}</span>
+      {[
+        ReplyAction.HIDE, ReplyAction.UNHIDE,
+        ReplyAction.LOCKED, ReplyAction.UNLOCKED,
+        ReplyAction.OPENED, ReplyAction.CLOSED
+      ].includes(props.action) && (
+        <span>
+          <b>{props.author}</b> {props.action.replace(/e$/, '')} this issue on {props.date}
+        </span>
       )}
       {props.action === ReplyAction.EDIT_TITLE && (
         <span>

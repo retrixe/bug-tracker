@@ -6,7 +6,7 @@ const validateIssueBody = (body: any): body is IssueBody => {
   return typeof body.title === 'string' && !body.title.includes('\n') && body.title.length <= 100 &&
     typeof body.content === 'string' && body.content.length <= 4000 &&
     Array.isArray(body.labels) &&
-    Array.isArray(body.assignedTo)
+    Array.isArray(body.assignees)
 }
 
 const handler: NextApiHandler = async (req, res) => {
@@ -23,7 +23,7 @@ const handler: NextApiHandler = async (req, res) => {
       }
       const id = await storageBackend.createIssue({
         ...body,
-        ...(authState.privileged ? {} : { labels: [], assignedTo: [] }),
+        ...(authState.privileged ? {} : { labels: [], assignees: [] }),
         open: false,
         locked: false,
         hidden: false,
