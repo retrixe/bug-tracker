@@ -6,21 +6,21 @@ import Metadata from '../src/client/components/layout/Metadata'
 import api from '../src/client/hooks/api'
 import AuthContext from '../src/client/hooks/authContext'
 
-import { type IssueWithoutBody } from '../src/shared/types/issue'
+import { type IssueWithoutContent } from '../src/shared/types/issue'
 import type Label from '../src/shared/types/label'
 
 interface Props {
-  issues: IssueWithoutBody[]
+  issues: IssueWithoutContent[]
   labels: Label[]
 }
 
 const Index = (props: Props): JSX.Element => {
   const auth = useContext(AuthContext)
-  const [issues, setIssues] = useState<IssueWithoutBody[]>(props.issues)
+  const [issues, setIssues] = useState<IssueWithoutContent[]>(props.issues)
 
   useEffect(() => {
     if (auth?.privileged) { // Try to refetch the issue list if the user is privileged.
-      api.get('issues').json<IssueWithoutBody[]>().then(setIssues).catch(console.error)
+      api.get('issues').json<IssueWithoutContent[]>().then(setIssues).catch(console.error)
     }
   }, [auth])
 

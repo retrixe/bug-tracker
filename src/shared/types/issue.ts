@@ -18,4 +18,10 @@ export default interface Issue {
   // TODO: editLog: [],
 }
 
-export type IssueWithoutBody = Omit<Omit<Issue, 'content'>, 'replies'>
+// Expected by POST /api/issue
+export type IssueBody = Pick<Issue, 'title' | 'content' | 'labels' | 'assignedTo'>
+
+// Expected by storage backend, id/replies/createdAt/updatedAt are handled by the backend
+export type IssueBodyWithProps = IssueBody & Pick<Issue, 'open' | 'locked' | 'hidden' | 'author'>
+
+export type IssueWithoutContent = Omit<Omit<Issue, 'content'>, 'replies'>

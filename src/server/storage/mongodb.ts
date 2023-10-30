@@ -2,6 +2,7 @@ import { type Db, MongoClient } from 'mongodb'
 import type StorageBackend from '.'
 import type Issue from '../../shared/types/issue'
 import type Label from '../../shared/types/label'
+import { type IssueBodyWithProps } from '../../shared/types/issue'
 
 export default class MongoDBStorageBackend implements StorageBackend {
   connection: MongoClient
@@ -27,5 +28,10 @@ export default class MongoDBStorageBackend implements StorageBackend {
 
   async getLabels (): Promise<Label[]> {
     return await this.db.collection('labels').distinct('name')
+  }
+
+  async createIssue (issue: IssueBodyWithProps): Promise<number> {
+    // FIXME
+    return 0
   }
 }

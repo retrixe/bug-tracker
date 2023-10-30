@@ -2,14 +2,14 @@ import React from 'react'
 import { DateTime } from 'luxon'
 import UnstyledLink from '../layout/UnstyledLink'
 import Label from './Label'
-import { type IssueWithoutBody } from '../../../shared/types/issue'
+import { type IssueWithoutContent } from '../../../shared/types/issue'
 import type LabelType from '../../../shared/types/label'
 import styles from './IssueListItem.module.scss'
 
 const issueSvgPath = 'M8 1.5a6.5 6.5 0 100 13 6.5 6.5 0 000-13zM0 8a8 8 0 1116 0A8 8 0 010 8zm9 ' +
   '3a1 1 0 11-2 0 1 1 0 012 0zm-.25-6.25a.75.75 0 00-1.5 0v3.5a.75.75 0 001.5 0v-3.5z'
 
-const IssueListItem = ({ issue, labels }: { issue: IssueWithoutBody, labels: LabelType[] }): JSX.Element => {
+const IssueListItem = ({ issue, labels }: { issue: IssueWithoutContent, labels: LabelType[] }): JSX.Element => {
   const createdAt = DateTime.fromMillis(issue.createdAt).toLocaleString(DateTime.DATE_MED)
   const updatedAt = DateTime.fromMillis(issue.updatedAt).toLocaleString(DateTime.DATE_MED)
   return (

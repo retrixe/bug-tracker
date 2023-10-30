@@ -17,11 +17,24 @@ export const createAuthBackend = (): AuthBackend => {
   }
 }
 
-export const createToken = (username: string, time: number): string => {
+export const createToken = (username: string, timestamp: number): string => {
   const randomBytesEncoded = randomBytes(16).toString('hex') // 32 characters
-  const timeEncoded = time.toString(16).padStart(16, '0')
-  const userEncoded = Buffer.from(username).toString('base64').padEnd(24, '=')
-  return `${randomBytesEncoded}.${timeEncoded}.${userEncoded}`
+  const timestampEncoded = timestamp.toString(16).padStart(16, '0')
+  const usernameEncoded = Buffer.from(username).toString('base64').padEnd(24, '=')
+  return `${randomBytesEncoded}.${timestampEncoded}.${usernameEncoded}`
+}
+
+export const decodeToken = (token: string): { username: string, timestamp: number } | null => {
+  const [randomBytesEncoded, timestampEncoded, usernameEncoded] = token.split('.')
+  if (!randomBytesEncoded || !timestampEncoded || !usernameEncoded) {
+    return null
+  }
+  const timestamp = parseInt(timestampEncoded, 16)
+  if (isNaN(timestamp)) {
+    return null
+  }
+  const username = Buffer.from(usernameEncoded, 'base64').toString()
+  return { username, timestamp }
 }
 
 export default interface AuthBackend {
