@@ -22,7 +22,7 @@ const Index = (props: Props): JSX.Element => {
 }
 
 export async function getServerSideProps (): Promise<GetServerSidePropsResult<Props>> {
-  // TODO: Authenticated users should see all issues.
+  // FIXME: Authenticated users should see all issues.
   const issues = await storageBackend.getIssues(false).catch(console.error) ?? []
   const labels = await storageBackend.getLabels().catch(console.error) ?? []
   return { props: { issues, labels } }
