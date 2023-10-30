@@ -27,7 +27,7 @@ export default class MythicAuthBackend extends RedisAuthBackend {
       return // Don't reconnect if already connected.
     }
     await this.sub.psubscribe(`mythicauthservice:response:${permissionNamespace}`)
-    this.sub.on('pmessage', (channel, message) => {
+    this.sub.on('pmessage', (pattern, channel, message) => {
       const permission = channel.split(':')[2]
       const { request, authorised } = JSON.parse(message)
       const promise = this.promises.get(permission + ' ' + request)

@@ -42,7 +42,7 @@ const Reply = (props: ReplyActionProps): JSX.Element => {
   if (props.action === ReplyAction.COMMENT) {
     return <ReplyComment {...props} />
   }
-  return (
+  return ( // TODO: Add icons next to each action.
     <div className={styles.container}>
       {props.action === ReplyAction.OPEN_CLOSE && (
         <span><b>{props.author}</b> {props.content} this issue on {props.date}</span>

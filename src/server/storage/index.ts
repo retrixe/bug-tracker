@@ -6,6 +6,7 @@ import MongoDBStorageBackend from './mongodb'
 import config from '../config'
 
 export const createStorageBackend = (): StorageBackend => {
+  // FIXME: PostgreSQL and MySQL backends
   if (config.mongoUrl) {
     return new MongoDBStorageBackend(config.mongoUrl)
   }

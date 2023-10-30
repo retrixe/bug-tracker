@@ -19,7 +19,7 @@ const Login = (): JSX.Element => {
     router.push('/').catch(console.error)
   }
   const login = (): void => {
-    api.post('/api/login', { json: { username, password }, throwHttpErrors: false })
+    api.post('login', { json: { username, password }, throwHttpErrors: false })
       .json<{ error?: string, token?: string }>()
       .then(e => (e.error ? setError(e.error) : setToken(e.token ?? '')))
       .catch(() => setError('An unknown error occurred while logging in. Are you online?'))

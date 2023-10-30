@@ -4,6 +4,9 @@ import useAuth from '../../hooks/useAuth'
 import UnstyledLink from './UnstyledLink'
 import styles from './Layout.module.scss'
 
+// TODO: Awful header
+// TODO: No dark mode
+// TODO: Center contents like GitHub
 const Layout = (props: React.PropsWithChildren<Record<string, unknown>>): JSX.Element => {
   const auth = useAuth()
   const logout = (): void => {
