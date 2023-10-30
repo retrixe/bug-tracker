@@ -2,7 +2,7 @@ import type AuthBackend from '.'
 import { createHash } from 'crypto'
 import { readFile } from 'fs/promises'
 import { Redis } from 'ioredis'
-import { createToken } from '.'
+import { type AuthState, decodeToken, encodeToken } from '.'
 
 const hash = (str: string): string => createHash('sha256').update(str).digest().toString('hex')
 
@@ -20,7 +20,7 @@ export default class RedisAuthBackend implements AuthBackend {
     if (users[username] !== hash(password)) {
       return null
     }
-    const token = createToken(username, Date.now())
+    const token = encodeToken(username, Date.now())
     await this.redis.sadd(this.tokenStoreKey, token)
     return token
   }
@@ -29,7 +29,10 @@ export default class RedisAuthBackend implements AuthBackend {
     return await this.redis.srem(this.tokenStoreKey, token) >= 1
   }
 
-  async validate (token: string): Promise<boolean | null> {
-    return await this.redis.sismember(this.tokenStoreKey, token) ? true : null
+  async validate (token: string): Promise<AuthState | null> {
+    const tokenData = decodeToken(token)
+    return tokenData && await this.redis.sismember(this.tokenStoreKey, token)
+      ? { ...tokenData, privileged: true }
+      : null
   }
 }

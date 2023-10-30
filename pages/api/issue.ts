@@ -1,6 +1,5 @@
 import { type NextApiHandler } from 'next'
 import { type IssueBody } from '../../src/shared/types/issue'
-import { decodeToken } from '../../src/server/auth'
 
 const validateIssueBody = (body: any): body is IssueBody => {
   // FIXME: Enforce limitations like character length, newlines
@@ -13,10 +12,8 @@ const validateIssueBody = (body: any): body is IssueBody => {
 const handler: NextApiHandler = async (req, res) => {
   if (req.method === 'POST') {
     try {
-      const { username } = decodeToken(req.headers.authorization ?? '') ?? {}
-      if (!username) return res.status(401).json({ error: 'Unauthorized!' })
-      const privileged = await authBackend.validate(req.headers.authorization ?? '')
-      if (privileged === null) {
+      const authState = await authBackend.validate(req.headers.authorization ?? '')
+      if (authState === null) {
         return res.status(401).json({ error: 'Unauthorized!' })
       }
 
@@ -26,11 +23,11 @@ const handler: NextApiHandler = async (req, res) => {
       }
       const id = await storageBackend.createIssue({
         ...body,
-        ...(privileged ? {} : { labels: [], assignedTo: [] }),
+        ...(authState.privileged ? {} : { labels: [], assignedTo: [] }),
         open: false,
         locked: false,
         hidden: false,
-        author: username
+        author: authState.username
       })
       res.status(200).json({ id })
     } catch (e) {

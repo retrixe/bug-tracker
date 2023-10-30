@@ -3,8 +3,8 @@ import { type NextApiHandler } from 'next'
 const handler: NextApiHandler = async (req, res) => {
   if (req.method === 'GET') {
     try {
-      const privileged = await authBackend.validate(req.headers.authorization ?? '')
-      const issues = await storageBackend.getIssues(privileged ?? false)
+      const authState = await authBackend.validate(req.headers.authorization ?? '')
+      const issues = await storageBackend.getIssues(authState?.privileged ?? false)
       res.status(200).json(issues)
     } catch (e) {
       console.error(e)

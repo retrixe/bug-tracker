@@ -17,7 +17,13 @@ export const createAuthBackend = (): AuthBackend => {
   }
 }
 
-export const createToken = (username: string, timestamp: number): string => {
+export interface AuthState {
+  username: string
+  timestamp: number
+  privileged: boolean
+}
+
+export const encodeToken = (username: string, timestamp: number): string => {
   const randomBytesEncoded = randomBytes(16).toString('hex') // 32 characters
   const timestampEncoded = timestamp.toString(16).padStart(16, '0')
   const usernameEncoded = Buffer.from(username).toString('base64').padEnd(24, '=')
@@ -42,5 +48,5 @@ export default interface AuthBackend {
 
   login: (username: string, password: string) => Promise<string | null>
   logout: (token: string) => Promise<boolean>
-  validate: (token: string) => Promise<boolean | null>
+  validate: (token: string) => Promise<AuthState | null>
 }

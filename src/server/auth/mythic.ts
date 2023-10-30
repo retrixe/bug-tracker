@@ -1,6 +1,6 @@
 import Redis from 'ioredis'
 import RedisAuthBackend from './redis'
-import { createToken } from '.'
+import { type AuthState, decodeToken, encodeToken } from '.'
 
 const permissionNamespace = 'bugtracker.*'
 const userPermission = 'bugtracker.user'
@@ -57,17 +57,17 @@ export default class MythicAuthBackend extends RedisAuthBackend {
   async login (username: string, password: string): Promise<string | null> {
     const validAuth = await this.#checkPerm(username, userPermission, password)
     if (validAuth) {
-      const token = createToken(username, Date.now())
+      const token = encodeToken(username, Date.now())
       await this.redis.sadd('bug-tracker:tokens', token)
       return token
     }
     return null
   }
 
-  async validate (token: string): Promise<boolean | null> {
-    const validToken = await this.redis.sismember(this.tokenStoreKey, token) >= 1
-    const username = Buffer.from(token.split('.')[2], 'base64').toString('utf8')
-    const hasPerm = await this.#checkPerm(username, adminPermission)
-    return validToken ? hasPerm : null
+  async validate (token: string): Promise<AuthState | null> {
+    const tokenData = decodeToken(token)
+    const validToken = tokenData && await this.redis.sismember(this.tokenStoreKey, token) >= 1
+    const hasPerm = !!validToken && await this.#checkPerm(tokenData.username, adminPermission)
+    return validToken ? { ...tokenData, privileged: hasPerm } : null
   }
 }

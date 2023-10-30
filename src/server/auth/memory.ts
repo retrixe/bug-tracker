@@ -1,7 +1,7 @@
 import type AuthBackend from '.'
 import { createHash } from 'crypto'
 import { readFile } from 'fs/promises'
-import { createToken } from '.'
+import { type AuthState, encodeToken, decodeToken } from '.'
 
 const hash = (str: string): string => createHash('sha256').update(str).digest().toString('hex')
 
@@ -15,7 +15,7 @@ export default class InMemoryAuthBackend implements AuthBackend {
     if (users[username] !== hash(password)) {
       return null
     }
-    const token = createToken(username, Date.now())
+    const token = encodeToken(username, Date.now())
     this.tokens[token] = true
     return token
   }
@@ -24,7 +24,8 @@ export default class InMemoryAuthBackend implements AuthBackend {
     return delete this.tokens[token]
   }
 
-  async validate (token: string): Promise<boolean | null> {
-    return this.tokens[token] ?? null
+  async validate (token: string): Promise<AuthState | null> {
+    const tokenData = decodeToken(token)
+    return tokenData && this.tokens[token] ? { ...tokenData, privileged: true } : null
   }
 }
