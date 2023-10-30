@@ -1,6 +1,9 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import Head from 'next/head'
 import { type AppProps } from 'next/app'
+import { HTTPError } from 'ky'
+import AuthContext, { type AuthState } from '../src/client/hooks/authContext'
+import api from '../src/client/hooks/api'
 
 // import '../imports/css/normalize.css'
 // import '../imports/css/skeleton.css'
@@ -9,6 +12,19 @@ import './global.scss'
 const icon = '/assets/icon.png'
 
 function MyApp ({ Component, pageProps }: AppProps): JSX.Element {
+  const [authenticated, setAuthenticated] = useState<AuthState | null>(null)
+
+  useEffect(() => {
+    if (typeof window === 'undefined') return
+    api('auth').json<{ success: boolean, privileged: boolean }>()
+      .then(({ privileged }) => setAuthenticated({ authenticated: true, privileged }))
+      .catch((err: unknown) => {
+        if (err instanceof HTTPError && err.response.status === 403) {
+          setAuthenticated({ authenticated: false, privileged: false })
+        } else console.error(err)
+      })
+  }, [])
+
   return (
     <>
       <Head>
@@ -32,7 +48,9 @@ function MyApp ({ Component, pageProps }: AppProps): JSX.Element {
           />
         */}
       </Head>
-      <Component {...pageProps} />
+      <AuthContext.Provider value={authenticated}>
+        <Component {...pageProps} />
+      </AuthContext.Provider>
     </>
   )
 }

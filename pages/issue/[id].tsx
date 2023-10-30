@@ -1,9 +1,11 @@
-import React from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import { DateTime } from 'luxon'
 import { useRouter } from 'next/router'
 import Layout from '../../src/client/components/layout/Layout'
 import Metadata from '../../src/client/components/layout/Metadata'
 import Reply, { ReplyComment } from '../../src/client/components/display/Reply'
+import api from '../../src/client/hooks/api'
+import AuthContext from '../../src/client/hooks/authContext'
 import styles from './[id].module.scss'
 
 import type Issue from '../../src/shared/types/issue'
@@ -12,8 +14,17 @@ import { ReplyAction } from '../../src/shared/types/reply'
 
 interface Props { issue: Issue | null }
 
-const IssuePage = ({ issue }: Props): JSX.Element => {
-  const id = useRouter().query.id as string | undefined
+const IssuePage = ({ issue: issueProp }: Props): JSX.Element => {
+  const rawId = useRouter().query.id
+  const id = typeof rawId === 'string' && !isNaN(+rawId) ? +rawId : undefined
+  const auth = useContext(AuthContext)
+  const [issue, setIssue] = useState<Issue | null>(issueProp)
+
+  useEffect(() => {
+    if (auth?.privileged) { // Try to refetch the issue if the user is privileged.
+      api.get(`issue/${id}`).json<Issue>().then(setIssue).catch(console.error)
+    }
+  }, [id, auth])
 
   if (!issue) {
     return (
@@ -27,7 +38,7 @@ const IssuePage = ({ issue }: Props): JSX.Element => {
       </Layout>
     )
   }
-  // FIXME: labels, assignedTo
+
   const comments = issue.replies.filter(reply => reply.action === ReplyAction.COMMENT).length
   const date = DateTime.fromMillis(issue.createdAt).toLocaleString(DateTime.DATE_MED)
   return (
@@ -47,16 +58,22 @@ const IssuePage = ({ issue }: Props): JSX.Element => {
         · {comments || 'No'} comment{comments !== 1 ? 's' : ''}
       </span>
       {/* <hr style={{ marginTop: '1em', marginBottom: '1em', color: '#eee', backgroundColor: '#eee' }} /> */}
-      <ReplyComment date={date} content={issue.content} author={issue.author} />
-      {issue.replies.map((reply, index) => (
-        <Reply
-          key={index}
-          date={DateTime.fromMillis(reply.createdAt).toLocaleString(DateTime.DATE_MED)}
-          author={reply.author}
-          content={reply.content}
-          action={reply.action}
-        />
-      ))}
+      <div className={styles.replies}>
+        <ReplyComment date={date} content={issue.content} author={issue.author} />
+        {issue.replies.map((reply, index) => (
+          <Reply
+            key={index}
+            date={DateTime.fromMillis(reply.createdAt).toLocaleString(DateTime.DATE_MED)}
+            author={reply.author}
+            content={reply.content}
+            action={reply.action}
+          />
+        ))}
+        {/* FIXME: auth && (reply UI) */}
+      </div>
+      <div className={styles.sidebar}>
+        {/* FIXME: labels, assignedTo */}
+      </div>
     </Layout>
   )
 }
@@ -64,7 +81,7 @@ const IssuePage = ({ issue }: Props): JSX.Element => {
 export async function getServerSideProps (context: Ctx): Promise<Res<Props>> {
   if (!context.params?.id || isNaN(+context.params.id)) return { props: { issue: null } }
   let issue = await storageBackend.getIssue(+context.params.id).catch(console.error) ?? null
-  if (issue?.hidden) issue = null // FIXME: Authenticated users can see hidden issues.
+  if (issue?.hidden) issue = null
   return { props: { issue } }
 }
 

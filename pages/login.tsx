@@ -1,10 +1,12 @@
-import React, { useState } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import { useRouter } from 'next/router'
 import Layout from '../src/client/components/layout/Layout'
 import Metadata from '../src/client/components/layout/Metadata'
 import api from '../src/client/hooks/api'
+import AuthContext from '../src/client/hooks/authContext'
 
 const Login = (): JSX.Element => {
+  const auth = useContext(AuthContext)
   const router = useRouter()
   const [error, setError] = useState('')
   const [username, setUsername] = useState('')
@@ -24,6 +26,10 @@ const Login = (): JSX.Element => {
       .then(e => (e.error ? setError(e.error) : setToken(e.token ?? '')))
       .catch(() => setError('An unknown error occurred while logging in. Are you online?'))
   }
+
+  useEffect(() => {
+    if (auth) router.push('/').catch(console.error)
+  }, [auth, router])
 
   return (
     <Layout>

@@ -1,6 +1,6 @@
-import React from 'react'
+import React, { useContext } from 'react'
 import api from '../../hooks/api'
-import useAuth from '../../hooks/useAuth'
+import AuthContext from '../../hooks/authContext'
 import UnstyledLink from './UnstyledLink'
 import styles from './Layout.module.scss'
 
@@ -8,7 +8,7 @@ import styles from './Layout.module.scss'
 // TODO: No dark mode
 // TODO: Center contents like GitHub
 const Layout = (props: React.PropsWithChildren<Record<string, unknown>>): JSX.Element => {
-  const auth = useAuth()
+  const auth = useContext(AuthContext)
   const logout = (): void => {
     api.post('logout').then(window.location.reload).catch(console.error)
   }
