@@ -1,7 +1,7 @@
 import config from '../../config.json'
 
 export default config as unknown as {
-  mongoUrl?: string
+  useMythicAuth?: boolean
   redisUrl?: string
-  mythicAuth?: boolean
+  mongoUrl?: string
 }

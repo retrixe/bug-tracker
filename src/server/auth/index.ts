@@ -5,7 +5,7 @@ import MythicAuthBackend from './mythic'
 import RedisAuthBackend from './redis'
 
 export const createAuthBackend = (): AuthBackend => {
-  if (config.mythicAuth) {
+  if (config.useMythicAuth) {
     if (!config.redisUrl) {
       throw new Error('MythicMC authentication backend requires a Redis URL in config!')
     }

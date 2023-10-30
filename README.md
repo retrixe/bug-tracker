@@ -10,13 +10,15 @@ This project uses `yarn` which Node.js can setup when you run `corepack enable`.
 
 Configuration is done in `config.json`. Storage and authentication backends are selected in the following order if multiple backends are configured:
 
-- Storage: MongoDB, Mock (only in development mode)
+- Storage: PostgreSQL, MySQL/MariaDB, MongoDB, Mock (only in development mode)
 - Authentication: Mythic (Redis + @mythicmc/auth protocol), Redis, In-memory
 
 ```json
 {
+  "useMythicAuth": false,
   "redisUrl": "",
-  "mythicAuth": false,
-  "mongoUrl": ""
+  "usePostgres": false,
+  "mysqlUrl": "",
+  "mongoUrl": "",
 }
 ```

@@ -31,6 +31,7 @@ const Login = (): JSX.Element => {
     if (auth) router.push('/').catch(console.error)
   }, [auth, router])
 
+  // TODO: Awful
   return (
     <Layout>
       <Metadata title='Login - Bug Tracker' url='/login' description='Log into this bug tracker.' />

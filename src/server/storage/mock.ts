@@ -24,7 +24,19 @@ const mockData: Issue[] = [
         content: 'Hello, world! This is a reply...',
         author: 'retrixe',
         createdAt: Date.now()
-      }
+      },
+      {
+        action: ReplyAction.EDIT_TITLE,
+        content: 'Old example title\nOpen issue example',
+        author: 'retrixe',
+        createdAt: Date.now()
+      },
+      { action: ReplyAction.HIDE, content: '', author: 'retrixe', createdAt: Date.now() },
+      { action: ReplyAction.UNHIDE, content: '', author: 'retrixe', createdAt: Date.now() },
+      { action: ReplyAction.LOCKED, content: '', author: 'retrixe', createdAt: Date.now() },
+      { action: ReplyAction.UNLOCKED, content: '', author: 'retrixe', createdAt: Date.now() },
+      { action: ReplyAction.CLOSED, content: '', author: 'retrixe', createdAt: Date.now() },
+      { action: ReplyAction.OPENED, content: '', author: 'retrixe', createdAt: Date.now() }
     ]
   }
 ]
