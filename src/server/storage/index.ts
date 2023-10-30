@@ -5,6 +5,13 @@ import MockStorageBackend from './mock'
 import MongoDBStorageBackend from './mongodb'
 import config from '../config'
 
+export class ValidationError extends Error {
+  constructor (message: string) {
+    super(message)
+    this.name = 'ValidationError'
+  }
+}
+
 export const createStorageBackend = (): StorageBackend => {
   // FIXME: PostgreSQL and MySQL backends
   if (config.mongoUrl) {

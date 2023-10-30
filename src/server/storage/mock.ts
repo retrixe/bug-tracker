@@ -1,4 +1,5 @@
 import type StorageBackend from '.'
+import { ValidationError } from '.'
 import type Issue from '../../shared/types/issue'
 import { type IssueBodyWithProps, type IssueWithoutContent } from '../../shared/types/issue'
 import type Label from '../../shared/types/label'
@@ -54,7 +55,11 @@ export default class MockStorageBackend implements StorageBackend {
   async createIssue (issue: IssueBodyWithProps): Promise<number> {
     const id = Math.max(...mockData.map(issue => issue.id)) + 1
     const newIssue = { ...issue, id, createdAt: Date.now(), updatedAt: Date.now(), replies: [] }
-    // FIXME: Validate labels and assignedTo
+    if (issue.labels.some(name => !mockLabels.find(label => label.name === name))) {
+      throw new ValidationError('Invalid label(s) specified!')
+    } else if (issue.assignedTo.some(name => !['retrixe'].includes(name))) {
+      throw new ValidationError('Invalid assignee(s) specified!')
+    }
     mockData.push(newIssue)
     return id
   }

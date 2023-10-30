@@ -54,6 +54,10 @@ export default class MythicAuthBackend extends RedisAuthBackend {
     return await promise
   }
 
+  async exists (username: string): Promise<boolean> {
+    return await this.#checkPerm(username, userPermission, '')
+  }
+
   async login (username: string, password: string): Promise<string | null> {
     const validAuth = await this.#checkPerm(username, userPermission, password)
     if (validAuth) {

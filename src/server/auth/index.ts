@@ -46,6 +46,7 @@ export const decodeToken = (token: string): { username: string, timestamp: numbe
 export default interface AuthBackend {
   connect: () => Promise<void>
 
+  exists: (username: string) => Promise<boolean>
   login: (username: string, password: string) => Promise<string | null>
   logout: (token: string) => Promise<boolean>
   validate: (token: string) => Promise<AuthState | null>

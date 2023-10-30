@@ -1,10 +1,10 @@
 import { type NextApiHandler } from 'next'
 import { type IssueBody } from '../../src/shared/types/issue'
+import { ValidationError } from '../../src/server/storage'
 
 const validateIssueBody = (body: any): body is IssueBody => {
-  // FIXME: Enforce limitations like character length, newlines
-  return typeof body.title === 'string' &&
-    typeof body.content === 'string' &&
+  return typeof body.title === 'string' && !body.title.includes('\n') && body.title.length <= 100 &&
+    typeof body.content === 'string' && body.content.length <= 4000 &&
     Array.isArray(body.labels) &&
     Array.isArray(body.assignedTo)
 }
@@ -31,8 +31,12 @@ const handler: NextApiHandler = async (req, res) => {
       })
       res.status(200).json({ id })
     } catch (e) {
-      console.error(e)
-      res.status(500).json({ error: 'Internal Server Error!' })
+      if (e instanceof ValidationError) {
+        res.status(400).json({ error: e.message })
+      } else {
+        console.error(e)
+        res.status(500).json({ error: 'Internal Server Error!' })
+      }
     }
   } else res.status(405).json({ error: 'Method Not Allowed!' })
 }

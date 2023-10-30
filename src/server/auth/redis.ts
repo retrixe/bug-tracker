@@ -15,6 +15,11 @@ export default class RedisAuthBackend implements AuthBackend {
 
   async connect (): Promise<void> { /* NOOP */ }
 
+  async exists (username: string): Promise<boolean> {
+    const users = JSON.parse(await readFile('users.json', { encoding: 'utf8' }))
+    return !!users[username]
+  }
+
   async login (username: string, password: string): Promise<string | null> {
     const users = JSON.parse(await readFile('users.json', { encoding: 'utf8' }))
     if (users[username] !== hash(password)) {
