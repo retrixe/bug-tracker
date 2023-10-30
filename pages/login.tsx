@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import { useRouter } from 'next/router'
-import Title from '../src/client/title'
-import Layout from '../src/client/layout'
+import Layout from '../src/client/components/layout/Layout'
+import Metadata from '../src/client/components/layout/Metadata'
 import api from '../src/client/hooks/api'
 
 const Login = (): JSX.Element => {
@@ -27,7 +27,7 @@ const Login = (): JSX.Element => {
 
   return (
     <Layout>
-      <Title title='Login - Bug Tracker' url='/login' description='Log into this bug tracker.' />
+      <Metadata title='Login - Bug Tracker' url='/login' description='Log into this bug tracker.' />
       <input placeholder='Username' value={username} onChange={onUsernameChange} />
       <br />
       <input placeholder='Password' value={password} onChange={onPasswordChange} type='password' />

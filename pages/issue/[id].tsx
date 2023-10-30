@@ -1,8 +1,8 @@
 import React from 'react'
 import { DateTime } from 'luxon'
-import Title from '../../src/client/title'
-import Layout from '../../src/client/layout'
-import Reply, { ReplyComment } from '../../src/client/reply'
+import Layout from '../../src/client/components/layout/Layout'
+import Metadata from '../../src/client/components/layout/Metadata'
+import Reply, { ReplyComment } from '../../src/client/components/display/Reply'
 
 import type Issue from '../../src/shared/types/issue'
 import { type GetServerSidePropsContext as Ctx, type GetServerSidePropsResult as Res } from 'next'
@@ -14,7 +14,7 @@ const IssuePage = ({ issue }: Props): JSX.Element => {
   if (!issue) {
     return (
       <Layout>
-        <Title title='Issue Not Found - Bug Tracker' url='/' description='A lightweight website that tracks bugs.' />
+        <Metadata title='Issue Not Found - Bug Tracker' url='/' description='A lightweight website that tracks bugs.' />
         <p>This issue was not found! Go back to the home page?</p>
       </Layout>
     )
@@ -22,9 +22,9 @@ const IssuePage = ({ issue }: Props): JSX.Element => {
   // FIXME: labels, assignedTo
   const comments = issue.replies.filter(reply => reply.action === ReplyAction.COMMENT).length
   const date = DateTime.fromMillis(issue.createdAt).toLocaleString(DateTime.DATE_MED)
-  return (
+  return ( // FIXME: Metadata should have issue relevant info.
     <Layout>
-      <Title title='Bug Tracker' url='/' description='A lightweight website that tracks bugs.' />
+      <Metadata title='Bug Tracker' url='/' description='A lightweight website that tracks bugs.' />
       <h2><span style={{ fontWeight: 300 }}>#{issue.id}</span> {issue.title}</h2>
       <div
         style={{ // TODO: Add an issue SVG.

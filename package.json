@@ -27,7 +27,7 @@
     "remark-gfm": "^4.0.0",
     "remark-parse": "^11.0.0",
     "remark-rehype": "^11.0.0",
-    "styled-jsx": "^5.1.2",
+    "sass": "^1.69.5",
     "unified": "^11.0.3"
   },
   "devDependencies": {

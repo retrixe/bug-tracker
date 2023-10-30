@@ -10,7 +10,7 @@ export default interface Issue {
   author: string
   content: string // FIXME: Make editable for logged in users
   createdAt: number
-  updatedAt: number // FIXME: Currently not viewable.
+  updatedAt: number
   labels: string[] // FIXME: Make editable for logged in users, currently not viewable.
   assignedTo: string[] // FIXME: Make editable for logged in users, currently not viewable.
   replies: Reply[] // FIXME: Make editable for logged in users, currently not viewable.

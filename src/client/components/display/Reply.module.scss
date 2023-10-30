@@ -1,0 +1,30 @@
+.container {
+  margin-top: 1.5em;
+  display: flex;
+  flex-direction: column;
+}
+
+.comment-header {
+  padding: 8px;
+  border-top-left-radius: 8px;
+  border-top-right-radius: 8px;
+  background-color: #eee;
+  border: 1px solid black;
+  border-bottom-color: #999;
+}
+
+.markdown-content {
+  padding: 8px;
+  border: 1px solid black;
+  border-top: 0px;
+  border-bottom-left-radius: 8px;
+  border-bottom-right-radius: 8px;
+
+  p:first-child {
+    margin-top: 0;
+  }
+
+  p:last-child {
+    margin-bottom: 0;
+  }
+}

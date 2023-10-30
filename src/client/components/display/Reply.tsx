@@ -4,11 +4,11 @@ import rehypeReact from 'rehype-react'
 import remarkParse from 'remark-parse'
 import remarkRehype from 'remark-rehype'
 import remarkGfm from 'remark-gfm'
-import styles from './reply.module.css'
-import type ReplyType from '../shared/types/reply'
+import styles from './Reply.module.scss'
+import type ReplyType from '../../../shared/types/reply'
+import { ReplyAction } from '../../../shared/types/reply'
 
 import * as prod from 'react/jsx-runtime'
-import { ReplyAction } from '../shared/types/reply'
 
 // @ts-expect-error: the react types are missing.
 const production = { Fragment: prod.Fragment, jsx: prod.jsx, jsxs: prod.jsxs }
@@ -27,29 +27,11 @@ export const ReplyComment = (props: Omit<ReplyActionProps, 'action'>): JSX.Eleme
     [props.content]
   )
   return (
-    <div style={{ marginTop: '1.5em' }}>
-      <div
-        style={{
-          padding: 8,
-          borderTopLeftRadius: 8,
-          borderTopRightRadius: 8,
-          backgroundColor: '#eee',
-          border: '1px solid black',
-          borderBottomColor: '#999'
-        }}
-      >
+    <div className={styles.container}>
+      <div className={styles['comment-header']}>
         <b>{props.author}</b> commented on {props.date}
       </div>
-      <div
-        style={{
-          padding: 8,
-          border: '1px solid black',
-          borderTop: 0,
-          borderBottomLeftRadius: 8,
-          borderBottomRightRadius: 8
-        }}
-        className={styles['markdown-content']}
-      >
+      <div className={styles['markdown-content']}>
         {content}
       </div>
     </div>
@@ -61,7 +43,7 @@ const Reply = (props: ReplyActionProps): JSX.Element => {
     return <ReplyComment {...props} />
   }
   return (
-    <div style={{ marginTop: '1.5em', display: 'flex' }}>
+    <div className={styles.container}>
       {props.action === ReplyAction.OPEN_CLOSE && (
         <span><b>{props.author}</b> {props.content} this issue on {props.date}</span>
       )}

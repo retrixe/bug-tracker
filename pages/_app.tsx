@@ -4,7 +4,7 @@ import { type AppProps } from 'next/app'
 
 // import '../imports/css/normalize.css'
 // import '../imports/css/skeleton.css'
-// import './global.scss'
+import './global.scss'
 
 const icon = '/assets/icon.png'
 
