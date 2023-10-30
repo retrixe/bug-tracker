@@ -1,3 +1,12 @@
+.issue-title {
+  margin-bottom: 0.5rem;
+}
+
+.issue-header {
+  display: flex;
+  align-items: center;
+}
+
 .issue-status {
   padding: 8px;
   color: white;
@@ -14,4 +23,49 @@
 
 .thin {
   font-weight: 300;
+}
+
+@mixin media-query($rule, $breakpoint, $upper-value, $lower-value) {
+  #{$rule}: $lower-value;
+  @media screen and (min-width: $breakpoint) {
+    #{$rule}: $upper-value;
+  }
+}
+
+.issue-content {
+  display: flex;
+  @include media-query(flex-direction, 750px, row, column);
+  // @include media-query(max-width, 750px, 1200px, 100%);
+}
+
+.replies {
+  flex: 2;
+}
+
+.sidebar {
+  flex: 1;
+  max-width: 350px;
+  margin-top: 1.5em;
+  @include media-query(border-left, 750px, 1px solid grey, 0px);
+  @include media-query(margin-left, 750px, 1em, 0px);
+
+  > :first-child {
+    @include media-query(border-top, 750px, 0px, 1px solid grey);
+  }
+
+  > :not(:last-child) {
+    border-bottom: 1px solid grey;
+  }
+}
+
+.sidebar-component {
+  padding: 16px;
+  h4 {
+    margin-top: 0;
+    margin-bottom: 0.8em;
+  }
+}
+
+.sidebar-label-component > :nth-child(2) {
+  margin-left: 0px;
 }
