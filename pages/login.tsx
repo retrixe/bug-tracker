@@ -31,7 +31,7 @@ const Login = (): JSX.Element => {
     if (auth) router.push('/').catch(console.error)
   }, [auth, router])
 
-  // TODO: Awful
+  // FIXME: Awful, needs an input and button design (so do other parts of the UI)
   return (
     <Layout>
       <Metadata title='Login - Bug Tracker' url='/login' description='Log into this bug tracker.' />

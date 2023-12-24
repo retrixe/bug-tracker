@@ -61,7 +61,7 @@ const IssuePage = ({ issue: issueProp, labels }: Props): JSX.Element => {
         </div>
         <span className={styles.thin}>
           <b>{issue.author}</b> opened this issue on {date}{' '}
-          · {comments || 'No'} comment{comments !== 1 ? 's' : ''}
+          • {comments || 'No'} comment{comments !== 1 ? 's' : ''}
         </span>
       </div>
       {/* <hr style={{ marginTop: '1em', marginBottom: '1em', color: '#eee', backgroundColor: '#eee' }} /> */}

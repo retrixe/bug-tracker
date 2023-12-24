@@ -14,7 +14,7 @@ export default interface Reply {
   // When COMMENT, content is the comment content
   // When EDIT_TITLE, content is "old title\nnew title"
   // Otherwise, the content is empty.
-  content: string
+  content: string // FIXME: Make editable for logged in users
   createdAt: number
   action: ReplyAction
 }

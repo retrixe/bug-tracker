@@ -10,7 +10,10 @@ import styles from './Layout.module.scss'
 const Layout = (props: React.PropsWithChildren<Record<string, unknown>>): JSX.Element => {
   const auth = useContext(AuthContext)
   const logout = (): void => {
-    api.post('logout').then(window.location.reload).catch(console.error)
+    api.post('logout', { throwHttpErrors: false }).then(() => {
+      localStorage.removeItem('bug-tracker:token')
+      window.location.reload()
+    }).catch(console.error)
   }
   return (
     <div>
